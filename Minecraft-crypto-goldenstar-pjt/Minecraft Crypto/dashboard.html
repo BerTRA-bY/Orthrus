@@ -164,6 +164,21 @@
             transform: translateX(10px);
         }
 
+        .sidebar-menu a[onclick*="portfolio"]:first-child {
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 0.5rem;
+            padding-bottom: 1.2rem;
+        }
+
+        .sidebar-menu a[onclick*="portfolio"]:first-child i {
+            color: var(--accent-blue);
+        }
+
+        .sidebar-menu a[onclick*="portfolio"]:first-child:hover i,
+        .sidebar-menu a[onclick*="portfolio"]:first-child.active i {
+            color: white;
+        }
+
         .sidebar-menu i {
             margin-right: 1rem;
             width: 20px;
@@ -260,8 +275,18 @@
             border: 1px solid var(--border-color);
             padding: 1.5rem;
             box-shadow: var(--shadow-md);
-            min-height: 500px;
-            height: 500px;
+            min-height: 600px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            overflow: hidden;
+        }
+        
+        .price-chart canvas {
+            max-height: calc(100% - 100px) !important;
+            width: 100% !important;
+            flex: 1;
         }
 
         .chart-header {
@@ -271,6 +296,7 @@
             margin-bottom: 1rem;
             flex-wrap: wrap;
             gap: 1rem;
+            flex-shrink: 0;
         }
 
         .chart-tabs {
@@ -302,48 +328,56 @@
 
         .chart-container {
             position: relative;
-            height: 400px;
+            flex: 1;
+            min-height: 320px;
             width: 100%;
             background: rgba(255, 255, 255, 0.02);
             border-radius: 12px;
             padding: 1rem;
             border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: auto;
         }
 
         .chart-controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             padding: 0.5rem 0;
+            flex-shrink: 0;
         }
 
         .chart-indicators {
             display: flex;
             gap: 1rem;
             font-size: 0.85rem;
+            flex-wrap: wrap;
         }
 
         .chart-indicator {
             display: flex;
             align-items: center;
             gap: 0.3rem;
+            white-space: nowrap;
         }
 
         .indicator-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
+            flex-shrink: 0;
         }
 
         .price-info {
-            display: flex;
-            gap: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
             margin-bottom: 1rem;
             padding: 1rem;
             background: rgba(255, 255, 255, 0.03);
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.05);
+            flex-shrink: 0;
         }
 
         .price-metric {
@@ -351,14 +385,17 @@
         }
 
         .price-metric-label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-secondary);
             margin-bottom: 0.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .price-metric-value {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
+            line-height: 1.2;
         }
 
         /* Order Book */
@@ -369,32 +406,78 @@
             border: 1px solid var(--border-color);
             padding: 1.5rem;
             box-shadow: var(--shadow-md);
+            min-height: 600px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
         }
 
         .order-book-content {
-            max-height: 400px;
+            flex: 1;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
         }
 
         .order-table {
             width: 100%;
             font-size: 0.85rem;
+            border-collapse: collapse;
         }
 
         .order-table th {
             color: var(--text-secondary);
             font-weight: 600;
-            padding: 0.5rem;
+            padding: 0.75rem 0.5rem;
             border-bottom: 1px solid var(--border-color);
+            text-align: left;
+            position: sticky;
+            top: 0;
+            background: var(--bg-card);
+            z-index: 10;
         }
 
         .order-table td {
-            padding: 0.3rem 0.5rem;
+            padding: 0.5rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: right;
         }
 
-        .buy-order { color: var(--accent-green); }
-        .sell-order { color: var(--accent-red); }
+        .order-table td:first-child {
+            text-align: left;
+        }
+
+        .buy-order { 
+            color: var(--accent-green);
+        }
+        
+        .sell-order { 
+            color: var(--accent-red);
+        }
+
+        .order-spread {
+            text-align: center;
+            padding: 1rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            border: 1px solid var(--border-color);
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            background: rgba(255, 165, 2, 0.05);
+            flex-shrink: 0;
+        }
+
+        .order-section {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+        }
+
+        .order-section-sells {
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 0.5rem;
+        }
 
         /* Trading Panel */
         .trading-panel {
@@ -537,6 +620,381 @@
             padding: 1.5rem;
         }
 
+        /* User Portfolio Profile Page */
+        .user-portfolio-page {
+            min-height: calc(100vh - 160px);
+        }
+
+        .dashboard-section {
+            display: none;
+        }
+
+        .dashboard-section.active {
+            display: block;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary-medium), var(--primary-dark));
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0, 212, 170, 0.1), rgba(55, 66, 250, 0.1));
+            z-index: 1;
+        }
+
+        .profile-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .profile-avatar-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-green), var(--accent-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(0, 212, 170, 0.4);
+        }
+
+        .avatar-upload-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 35px;
+            height: 35px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            border: 3px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .avatar-upload-btn:hover {
+            background: var(--accent-blue);
+            transform: scale(1.1);
+        }
+
+        .profile-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .profile-name {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--accent-green), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .profile-username {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .profile-stat {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .profile-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .portfolio-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .portfolio-overview {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .portfolio-value-card {
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+            border-radius: 16px;
+            padding: 2rem;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .portfolio-value {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-change {
+            font-size: 1.2rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .portfolio-performance {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .performance-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .performance-metric {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-glass);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .assets-section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .assets-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .assets-filter {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--accent-green);
+            color: white;
+            border-color: var(--accent-green);
+        }
+
+        .assets-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .asset-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem;
+            background: var(--bg-glass);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .asset-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .asset-card-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .asset-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .asset-info h4 {
+            margin: 0 0 0.3rem 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .asset-balance {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .asset-card-right {
+            text-align: right;
+        }
+
+        .asset-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .asset-change {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .transaction-history {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .transaction-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .transaction-table th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            padding: 1rem;
+            border-bottom: 2px solid var(--border-color);
+            text-align: left;
+        }
+
+        .transaction-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .transaction-type {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .type-buy {
+            background: rgba(0, 212, 170, 0.2);
+            color: var(--accent-green);
+        }
+
+        .type-sell {
+            background: rgba(255, 71, 87, 0.2);
+            color: var(--accent-red);
+        }
+
+        .type-deposit {
+            background: rgba(55, 66, 250, 0.2);
+            color: var(--accent-blue);
+        }
+
+        .type-withdraw {
+            background: rgba(255, 165, 2, 0.2);
+            color: var(--accent-gold);
+        }
+
         .portfolio-item {
             display: flex;
             justify-content: space-between;
@@ -655,26 +1113,36 @@
         /* Responsive Design */
         @media (max-width: 1200px) {
             .dashboard-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
 
             .price-chart {
-                grid-column: 1 / 3;
-                height: 450px;
-                min-height: 450px;
+                grid-column: 1;
+                height: 550px;
+                min-height: 550px;
+            }
+
+            .order-book {
+                height: 500px;
+                min-height: 500px;
             }
 
             .trading-panel {
-                grid-column: 1 / 3;
+                grid-column: 1;
             }
 
             .chart-container {
-                height: 320px;
+                min-height: 280px;
             }
 
             .price-info {
-                flex-wrap: wrap;
-                gap: 1rem;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+            }
+
+            .price-metric-value {
+                font-size: 0.9rem;
             }
         }
 
@@ -685,29 +1153,47 @@
 
             .main-content {
                 margin-left: 0;
+                padding: 1rem;
             }
 
             .dashboard-grid {
                 grid-template-columns: 1fr;
+                gap: 1rem;
             }
 
             .price-chart,
+            .order-book,
             .trading-panel {
                 grid-column: 1;
-                height: 400px;
-                min-height: 400px;
+                height: 450px;
+                min-height: 450px;
             }
 
             .chart-container {
-                height: 280px;
+                min-height: 240px;
+                padding: 0.5rem;
             }
 
             .trade-form {
                 grid-template-columns: 1fr;
             }
 
-            .portfolio-grid {
+            .portfolio-grid,
+            .portfolio-content-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .profile-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .performance-metrics {
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .chart-header {
@@ -719,10 +1205,45 @@
             .price-info {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 0.5rem;
+                padding: 0.75rem;
             }
 
             .price-metric {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
+            }
+
+            .price-metric-value {
+                font-size: 0.85rem;
+            }
+
+            .price-metric-label {
+                font-size: 0.7rem;
+            }
+
+            .chart-indicators {
+                gap: 0.5rem;
+            }
+
+            .chart-controls {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .price-info {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-tabs {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .chart-tab {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
             }
         }
 
@@ -839,9 +1360,10 @@
     <!-- Sidebar Navigation -->
     <div class="sidebar">
         <ul class="sidebar-menu">
+            <li><a href="#" onclick="showSection('portfolio')"><i class="fas fa-user-circle"></i> Profile</a></li>
             <li><a href="#" class="active" onclick="showSection('overview')"><i class="fas fa-chart-line"></i> Overview</a></li>
             <li><a href="#" onclick="showSection('trading')"><i class="fas fa-exchange-alt"></i> Trading</a></li>
-            <li><a href="#" onclick="showSection('portfolio')"><i class="fas fa-wallet"></i> Portfolio</a></li>
+            <li><a href="#" onclick="showSection('wallet')"><i class="fas fa-wallet"></i> Wallet</a></li>
             <li><a href="#" onclick="showSection('orders')"><i class="fas fa-list"></i> Orders</a></li>
             <li><a href="#" onclick="showSection('history')"><i class="fas fa-history"></i> History</a></li>
             <li><a href="#" onclick="showSection('market')"><i class="fas fa-chart-bar"></i> Market</a></li>
@@ -963,26 +1485,36 @@
                 <div class="order-book">
                     <h3 class="section-title"><i class="fas fa-book"></i> Order Book</h3>
                     <div class="order-book-content">
-                        <table class="order-table">
-                            <thead>
-                                <tr>
-                                    <th>Price (USD)</th>
-                                    <th>Amount</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody id="orderBookSells">
-                                <!-- Sell orders populated by JavaScript -->
-                            </tbody>
-                        </table>
-                        <div style="text-align: center; padding: 1rem; font-weight: 700; color: var(--accent-gold); border: 1px solid var(--border-color); margin: 0.5rem 0;">
-                            $0.2847 <span style="font-size: 0.8rem; color: var(--text-secondary);">Last Price</span>
+                        <!-- Sell Orders Section -->
+                        <div class="order-section order-section-sells">
+                            <table class="order-table">
+                                <thead>
+                                    <tr>
+                                        <th>Price (USD)</th>
+                                        <th>Amount</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="orderBookSells">
+                                    <!-- Sell orders populated by JavaScript -->
+                                </tbody>
+                            </table>
                         </div>
-                        <table class="order-table">
-                            <tbody id="orderBookBuys">
-                                <!-- Buy orders populated by JavaScript -->
-                            </tbody>
-                        </table>
+                        
+                        <!-- Current Price Spread -->
+                        <div class="order-spread">
+                            <div id="currentSpread">$0.2847</div>
+                            <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 0.2rem;">Last Price</div>
+                        </div>
+                        
+                        <!-- Buy Orders Section -->
+                        <div class="order-section">
+                            <table class="order-table">
+                                <tbody id="orderBookBuys">
+                                    <!-- Buy orders populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1156,7 +1688,146 @@
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Portfolio Section -->
+    <div id="portfolio-section" class="dashboard-section user-portfolio-page">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-content">
+                <div class="profile-avatar-section">
+                    <div class="profile-avatar" id="profileAvatar">
+                        <span id="profileAvatarLetter">U</span>
+                        <div class="avatar-upload-btn" onclick="uploadAvatar()">
+                            <i class="fas fa-camera" style="font-size: 0.8rem;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <div class="profile-name" id="profileName">User Profile</div>
+                    <div class="profile-username" id="profileUsername">@username</div>
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <div class="profile-stat-value" style="color: var(--accent-green);">247</div>
+                            <div class="profile-stat-label">Days Trading</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="profile-stat-value" style="color: var(--accent-blue);">1,247</div>
+                            <div class="profile-stat-label">Total Trades</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="profile-stat-value" style="color: var(--accent-gold);">78.4%</div>
+                            <div class="profile-stat-label">Win Rate</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="profile-stat-value" style="color: var(--accent-purple);">VIP Gold</div>
+                            <div class="profile-stat-label">Tier Status</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Content Grid -->
+        <div class="portfolio-content-grid">
+            <!-- Portfolio Overview -->
+            <div class="portfolio-overview">
+                <div class="portfolio-value-card">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <div style="font-size: 1.2rem; opacity: 0.9; margin-bottom: 0.5rem;">Total Portfolio Value</div>
+                            <div class="portfolio-value" id="portfolioTotalValue">$24,750.80</div>
+                            <div class="portfolio-change" id="portfolioTotalChange">+$1,247.50 (+5.31%) Today</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.9rem; opacity: 0.8;">Last Updated</div>
+                            <div style="font-size: 0.8rem; opacity: 0.7;" id="lastUpdated">Just now</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="margin-bottom: 1.5rem;">Portfolio Chart</h4>
+                <div style="height: 300px;">
+                    <canvas id="portfolioPerformanceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Performance Metrics -->
+            <div class="portfolio-performance">
+                <h4 style="margin-bottom: 1.5rem;">Performance Metrics</h4>
+                <div class="performance-metrics">
+                    <div class="performance-metric">
+                        <div class="metric-value positive">+24.7%</div>
+                        <div class="metric-label">Total Return</div>
+                    </div>
+                    <div class="performance-metric">
+                        <div class="metric-value positive">+12.8%</div>
+                        <div class="metric-label">Monthly Avg</div>
+                    </div>
+                    <div class="performance-metric">
+                        <div class="metric-value" style="color: var(--accent-blue);">0.85</div>
+                        <div class="metric-label">Sharpe Ratio</div>
+                    </div>
+                    <div class="performance-metric">
+                        <div class="metric-value" style="color: var(--accent-gold);">-8.2%</div>
+                        <div class="metric-label">Max Drawdown</div>
+                    </div>
+                    <div class="performance-metric">
+                        <div class="metric-value positive">78.4%</div>
+                        <div class="metric-label">Win Rate</div>
+                    </div>
+                    <div class="performance-metric">
+                        <div class="metric-value" style="color: var(--accent-purple);">2.1</div>
+                        <div class="metric-label">Profit Factor</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assets Section -->
+        <div class="assets-section">
+            <div class="assets-header">
+                <h3 class="section-title"><i class="fas fa-coins"></i> My Assets</h3>
+                <div class="assets-filter">
+                    <button class="filter-btn active" onclick="filterAssets('all')">All Assets</button>
+                    <button class="filter-btn" onclick="filterAssets('crypto')">Crypto</button>
+                    <button class="filter-btn" onclick="filterAssets('fiat')">Fiat</button>
+                    <button class="filter-btn" onclick="filterAssets('staking')">Staking</button>
+                </div>
+            </div>
+            <div class="assets-grid" id="assetsGrid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="transaction-history">
+            <h3 class="section-title"><i class="fas fa-receipt"></i> Transaction History</h3>
+            <div class="transaction-filters">
+                <button class="filter-btn active" onclick="filterTransactions('all')">All Transactions</button>
+                <button class="filter-btn" onclick="filterTransactions('buy')">Buy Orders</button>
+                <button class="filter-btn" onclick="filterTransactions('sell')">Sell Orders</button>
+                <button class="filter-btn" onclick="filterTransactions('deposit')">Deposits</button>
+                <button class="filter-btn" onclick="filterTransactions('withdraw')">Withdrawals</button>
+            </div>
+            <table class="transaction-table" id="transactionTable">
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Type</th>
+                        <th>Asset</th>
+                        <th>Amount</th>
+                        <th>Price</th>
+                        <th>Total Value</th>
+                        <th>Fee</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionTableBody">
+                    <!-- Populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 <!-- Fullscreen Chart Modal -->
 <div class="chart-fullscreen" id="chartFullscreen">
@@ -1224,8 +1895,434 @@
             document.getElementById('username').textContent = username;
             document.getElementById('userAvatar').textContent = username.charAt(0).toUpperCase();
             
+            // Update profile information
+            updateProfileInfo(username);
+            
             // Initialize dashboard
             initializeDashboard();
+        }
+
+        // Update profile information
+        function updateProfileInfo(username) {
+            document.getElementById('profileName').textContent = username || 'User Profile';
+            document.getElementById('profileUsername').textContent = `@${username?.toLowerCase() || 'username'}`;
+            document.getElementById('profileAvatarLetter').textContent = (username || 'U').charAt(0).toUpperCase();
+        }
+
+        // Show specific dashboard section
+        function showSection(sectionName) {
+            console.log('Showing section:', sectionName);
+            
+            // Hide all sections
+            const sections = document.querySelectorAll('.dashboard-section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all sidebar links
+            const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+            sidebarLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Show the selected section
+            const targetSection = document.getElementById(`${sectionName}-section`);
+            if (targetSection) {
+                targetSection.style.display = 'block';
+                targetSection.classList.add('active');
+                console.log('Section found and activated:', sectionName);
+            } else {
+                // Fallback to overview if section doesn't exist
+                console.log('Section not found, falling back to overview');
+                const overviewSection = document.getElementById('overview-section');
+                if (overviewSection) {
+                    overviewSection.style.display = 'block';
+                    overviewSection.classList.add('active');
+                }
+            }
+
+            // Add active class to the clicked sidebar link
+            if (event && event.target) {
+                const clickedLink = event.target.closest('a');
+                if (clickedLink) {
+                    clickedLink.classList.add('active');
+                }
+            }
+
+            // Initialize specific section content
+            if (sectionName === 'portfolio') {
+                console.log('Initializing portfolio page');
+                setTimeout(() => {
+                    initializePortfolioPage();
+                }, 100);
+            }
+        }
+
+        // Initialize portfolio page
+        function initializePortfolioPage() {
+            console.log('Starting portfolio page initialization');
+            try {
+                populateAssetsGrid();
+                populateTransactionHistory();
+                initializePortfolioPerformanceChart();
+                updateLastUpdatedTime();
+                console.log('Portfolio page initialization completed');
+            } catch (error) {
+                console.error('Error initializing portfolio page:', error);
+            }
+        }
+
+        // Populate assets grid
+        function populateAssetsGrid() {
+            const assetsGrid = document.getElementById('assetsGrid');
+            
+            const assets = [
+                {
+                    name: 'EVERMORE',
+                    symbol: 'EVER',
+                    balance: '3,847.00',
+                    value: '$10,945.89',
+                    change: '+5.31%',
+                    changeClass: 'positive',
+                    logo: 'E',
+                    logoGradient: 'linear-gradient(45deg, var(--accent-green), var(--accent-blue))',
+                    type: 'crypto'
+                },
+                {
+                    name: 'Bitcoin',
+                    symbol: 'BTC',
+                    balance: '0.245',
+                    value: '$8,420.50',
+                    change: '+2.14%',
+                    changeClass: 'positive',
+                    logo: 'B',
+                    logoGradient: 'linear-gradient(45deg, #f7931a, #f2a900)',
+                    type: 'crypto'
+                },
+                {
+                    name: 'Ethereum',
+                    symbol: 'ETH',
+                    balance: '2.1',
+                    value: '$4,247.80',
+                    change: '-1.25%',
+                    changeClass: 'negative',
+                    logo: 'E',
+                    logoGradient: 'linear-gradient(45deg, #627eea, #4f46e5)',
+                    type: 'crypto'
+                },
+                {
+                    name: 'USD Coin',
+                    symbol: 'USDC',
+                    balance: '1,136.61',
+                    value: '$1,136.61',
+                    change: '0.00%',
+                    changeClass: '',
+                    logo: 'U',
+                    logoGradient: 'linear-gradient(45deg, #1da1f2, #0d8bd9)',
+                    type: 'fiat'
+                },
+                {
+                    name: 'Cardano',
+                    symbol: 'ADA',
+                    balance: '2,450.00',
+                    value: '$847.30',
+                    change: '+3.45%',
+                    changeClass: 'positive',
+                    logo: 'A',
+                    logoGradient: 'linear-gradient(45deg, #0033ad, #1f4fff)',
+                    type: 'staking'
+                },
+                {
+                    name: 'Polkadot',
+                    symbol: 'DOT',
+                    balance: '78.50',
+                    value: '$425.90',
+                    change: '-0.85%',
+                    changeClass: 'negative',
+                    logo: 'D',
+                    logoGradient: 'linear-gradient(45deg, #e6007a, #ff1f7a)',
+                    type: 'crypto'
+                }
+            ];
+
+            let assetsHtml = '';
+            assets.forEach(asset => {
+                assetsHtml += `
+                    <div class="asset-card" data-type="${asset.type}">
+                        <div class="asset-card-left">
+                            <div class="asset-logo" style="background: ${asset.logoGradient};">
+                                ${asset.logo}
+                            </div>
+                            <div class="asset-info">
+                                <h4>${asset.name}</h4>
+                                <div class="asset-balance">${asset.balance} ${asset.symbol}</div>
+                            </div>
+                        </div>
+                        <div class="asset-card-right">
+                            <div class="asset-value">${asset.value}</div>
+                            <div class="asset-change ${asset.changeClass}">${asset.change}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            assetsGrid.innerHTML = assetsHtml;
+        }
+
+        // Filter assets
+        function filterAssets(type) {
+            const assetCards = document.querySelectorAll('.asset-card');
+            const filterBtns = document.querySelectorAll('.assets-filter .filter-btn');
+
+            // Update active filter button
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Show/hide asset cards
+            assetCards.forEach(card => {
+                if (type === 'all' || card.dataset.type === type) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Populate transaction history
+        function populateTransactionHistory() {
+            const tbody = document.getElementById('transactionTableBody');
+            
+            const transactions = [
+                {
+                    date: '2025-01-15 14:32:15',
+                    type: 'buy',
+                    asset: 'EVERMORE',
+                    amount: '150.00',
+                    price: '$0.2847',
+                    total: '$42.71',
+                    fee: '$0.05',
+                    status: 'completed'
+                },
+                {
+                    date: '2025-01-15 13:45:22',
+                    type: 'sell',
+                    asset: 'BTC',
+                    amount: '0.001',
+                    price: '$34,350.00',
+                    total: '$34.35',
+                    fee: '$0.03',
+                    status: 'completed'
+                },
+                {
+                    date: '2025-01-15 12:18:45',
+                    type: 'deposit',
+                    asset: 'USDC',
+                    amount: '500.00',
+                    price: '$1.00',
+                    total: '$500.00',
+                    fee: '$0.00',
+                    status: 'completed'
+                },
+                {
+                    date: '2025-01-15 11:55:12',
+                    type: 'buy',
+                    asset: 'ETH',
+                    amount: '0.5',
+                    price: '$2,023.50',
+                    total: '$1,011.75',
+                    fee: '$1.01',
+                    status: 'pending'
+                },
+                {
+                    date: '2025-01-15 10:22:30',
+                    type: 'withdraw',
+                    asset: 'EVERMORE',
+                    amount: '100.00',
+                    price: '$0.2820',
+                    total: '$28.20',
+                    fee: '$0.28',
+                    status: 'completed'
+                },
+                {
+                    date: '2025-01-14 16:45:18',
+                    type: 'sell',
+                    asset: 'ADA',
+                    amount: '500.00',
+                    price: '$0.34',
+                    total: '$170.00',
+                    fee: '$0.17',
+                    status: 'completed'
+                }
+            ];
+
+            let transactionsHtml = '';
+            transactions.forEach(tx => {
+                const statusClass = tx.status === 'completed' ? 'status-completed' : 
+                                  tx.status === 'pending' ? 'status-pending' : 'status-failed';
+                
+                transactionsHtml += `
+                    <tr data-type="${tx.type}">
+                        <td>${tx.date}</td>
+                        <td><span class="transaction-type type-${tx.type}">${tx.type}</span></td>
+                        <td>${tx.asset}</td>
+                        <td>${tx.amount}</td>
+                        <td>${tx.price}</td>
+                        <td>${tx.total}</td>
+                        <td>${tx.fee}</td>
+                        <td><span class="trade-status ${statusClass}">${tx.status}</span></td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = transactionsHtml;
+        }
+
+        // Filter transactions
+        function filterTransactions(type) {
+            const rows = document.querySelectorAll('#transactionTableBody tr');
+            const filterBtns = document.querySelectorAll('.transaction-filters .filter-btn');
+
+            // Update active filter button
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Show/hide transaction rows
+            rows.forEach(row => {
+                if (type === 'all' || row.dataset.type === type) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize portfolio performance chart
+        function initializePortfolioPerformanceChart() {
+            const ctx = document.getElementById('portfolioPerformanceChart');
+            if (!ctx) return;
+
+            const ctxContext = ctx.getContext('2d');
+            
+            // Generate performance data for the last 30 days
+            const labels = [];
+            const performanceData = [];
+            let baseValue = 20000;
+            
+            for (let i = 30; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                labels.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+                
+                // Generate realistic portfolio growth
+                const dailyChange = (Math.random() - 0.4) * 0.05; // Slight upward bias
+                baseValue = baseValue * (1 + dailyChange);
+                performanceData.push(baseValue.toFixed(2));
+            }
+            
+            new Chart(ctxContext, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Portfolio Value',
+                        data: performanceData,
+                        borderColor: '#00d4aa',
+                        backgroundColor: 'rgba(0, 212, 170, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: '#00d4aa',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                            titleColor: '#ffd700',
+                            bodyColor: '#ffffff',
+                            borderColor: '#ffd700',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return `Portfolio Value: $${parseFloat(context.parsed.y).toLocaleString()}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#8fa8b2',
+                                maxTicksLimit: 8
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#8fa8b2',
+                                callback: function(value) {
+                                    return '$' + parseFloat(value).toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Upload avatar function
+        function uploadAvatar() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const avatar = document.getElementById('profileAvatar');
+                        avatar.style.backgroundImage = `url(${e.target.result})`;
+                        avatar.style.backgroundSize = 'cover';
+                        avatar.style.backgroundPosition = 'center';
+                        avatar.innerHTML = ''; // Remove letter
+                        
+                        // Also update header avatar
+                        const headerAvatar = document.getElementById('userAvatar');
+                        headerAvatar.style.backgroundImage = `url(${e.target.result})`;
+                        headerAvatar.style.backgroundSize = 'cover';
+                        headerAvatar.style.backgroundPosition = 'center';
+                        headerAvatar.innerHTML = ''; // Remove letter
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        // Update last updated time
+        function updateLastUpdatedTime() {
+            const lastUpdated = document.getElementById('lastUpdated');
+            if (lastUpdated) {
+                const now = new Date();
+                lastUpdated.textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            }
         }
 
         // Initialize dashboard
@@ -1253,7 +2350,7 @@
             for (let i = 30; i >= 0; i--) {
                 const date = new Date();
                 date.setHours(date.getHours() - i);
-                labels.push(date.toLocaleTimeString());
+                labels.push(date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
                 
                 // Generate realistic price movement
                 const variation = (Math.random() - 0.5) * 0.02;
@@ -1316,6 +2413,12 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            top: 10,
+                            bottom: 10
+                        }
+                    },
                     interaction: {
                         mode: 'index',
                         intersect: false,
@@ -1332,6 +2435,7 @@
                             borderWidth: 1,
                             cornerRadius: 8,
                             displayColors: false,
+                            padding: 12,
                             callbacks: {
                                 title: function(context) {
                                     return `Time: ${context[0].label}`;
@@ -1356,7 +2460,8 @@
                             },
                             ticks: {
                                 color: '#8fa8b2',
-                                maxTicksLimit: 8
+                                maxTicksLimit: 8,
+                                padding: 5
                             }
                         },
                         y: {
@@ -1369,6 +2474,7 @@
                             },
                             ticks: {
                                 color: '#8fa8b2',
+                                padding: 5,
                                 callback: function(value) {
                                     return '$' + value.toFixed(4);
                                 }
@@ -1383,8 +2489,9 @@
                             },
                             ticks: {
                                 color: '#8fa8b2',
+                                padding: 5,
                                 callback: function(value) {
-                                    return value.toLocaleString();
+                                    return (value / 1000).toFixed(0) + 'K';
                                 }
                             }
                         }
@@ -1581,12 +2688,15 @@
             // Update price displays
             updatePriceDisplays();
             
+            // Update current spread in order book
+            document.getElementById('currentSpread').textContent = `$${currentPrice.toFixed(4)}`;
+            
             document.getElementById('buyPrice').placeholder = currentPrice.toFixed(4);
             document.getElementById('sellPrice').placeholder = currentPrice.toFixed(4);
             
             // Add new data point to chart
             if (priceChart) {
-                const now = new Date().toLocaleTimeString();
+                const now = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 priceChart.data.labels.push(now);
                 priceChart.data.datasets[0].data.push(currentPrice.toFixed(4));
                 
@@ -1767,18 +2877,7 @@
             initializePriceChart();
         }
 
-        // Show section
-        function showSection(section) {
-            // Update active sidebar item
-            document.querySelectorAll('.sidebar-menu a').forEach(link => {
-                link.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // For now, all sections show the overview
-            // In a real app, you'd hide/show different content sections
-            console.log('Showing section:', section);
-        }
+
 
         // Show trade type
         function showTradeType(type) {
@@ -1915,6 +3014,9 @@
             checkAuth();
             resetInactivityTimer();
             updatePriceDisplays();
+            
+            // Ensure portfolio section is properly set up
+            initializePortfolioPage();
         });
 
         // Handle window resize
@@ -1930,6 +3032,71 @@
                 closeFullscreen();
             }
         });
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('username');
+            window.location.href = 'login.html';
+        }
+
+        // Trade execution functions
+        function executeTrade(type) {
+            const orderType = document.getElementById(`${type}OrderType`).value;
+            const price = document.getElementById(`${type}Price`).value;
+            const amount = document.getElementById(`${type}Amount`).value;
+            
+            if (!price || !amount) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Simulate trade execution
+            const total = (parseFloat(price) * parseFloat(amount)).toFixed(2);
+            const confirmMessage = `Confirm ${type.toUpperCase()} order:\n` +
+                                 `Type: ${orderType}\n` +
+                                 `Amount: ${amount} EVERMORE\n` +
+                                 `Price: $${price}\n` +
+                                 `Total: $${total}`;
+            
+            if (confirm(confirmMessage)) {
+                alert(`${type.toUpperCase()} order submitted successfully!`);
+                
+                // Clear form
+                document.getElementById(`${type}Price`).value = '';
+                document.getElementById(`${type}Amount`).value = '';
+                document.getElementById(`${type}Total`).value = '';
+                
+                // Update portfolio if on portfolio page
+                if (document.getElementById('portfolio-section').classList.contains('active')) {
+                    setTimeout(() => {
+                        populateTransactionHistory();
+                        populateAssetsGrid();
+                    }, 1000);
+                }
+            }
+        }
+
+        // Trade type switching
+        function showTradeType(type) {
+            const tabs = document.querySelectorAll('.trading-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            console.log(`Switched to ${type} trading`);
+        }
+
+        // Timeframe switching
+        function changeTimeframe(timeframe) {
+            currentTimeframe = timeframe;
+            
+            const tabs = document.querySelectorAll('.chart-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // In a real application, this would fetch new data based on timeframe
+            console.log(`Chart timeframe changed to ${timeframe}`);
+        }
     </script>
 </body>
 </html>
