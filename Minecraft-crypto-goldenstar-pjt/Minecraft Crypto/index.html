@@ -359,8 +359,8 @@
       }
     }
 
-    /* Medium screens - show only icons when space is limited */
-    @media (max-width: 1050px) and (min-width: 769px) {
+    /* Medium screens - show only icons when space is very limited */
+    @media (max-width: 991px) and (min-width: 769px) {
       .tm-nav-link .nav-text {
         display: none !important;
       }
@@ -441,18 +441,323 @@
     }
     
     .navbar-toggler {
-      border: 2px solid var(--accent-green) !important;
-      border-radius: 10px !important;
-      padding: 8px 12px !important;
-      background: rgba(39, 174, 96, 0.1) !important;
+      border: none !important;
+      border-radius: 15px !important;
+      padding: 10px !important;
+      background: linear-gradient(135deg, rgba(39, 174, 96, 0.15), rgba(46, 204, 113, 0.1)) !important;
+      backdrop-filter: blur(10px) !important;
+      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+      transition: all 0.3s ease !important;
+      width: 45px !important;
+      height: 45px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      -webkit-tap-highlight-color: transparent !important;
+      user-select: none !important;
+    }
+    
+    /* Hide toggler when navigation items can fit directly */
+    @media (min-width: 992px) {
+      .navbar-toggler {
+        display: none !important;
+      }
+    }
+    
+    .navbar-toggler:hover {
+      transform: translateY(-2px) scale(1.05) !important;
+      background: linear-gradient(135deg, rgba(39, 174, 96, 0.25), rgba(46, 204, 113, 0.15)) !important;
+      box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4), 0 3px 10px rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    .navbar-toggler:active {
+      transform: translateY(0px) scale(0.98) !important;
+      transition: all 0.15s ease !important;
+      box-shadow: 0 3px 12px rgba(39, 174, 96, 0.4), 0 1px 6px rgba(0, 0, 0, 0.2) !important;
     }
     
     .navbar-toggler:focus {
-      box-shadow: 0 0 0 0.2rem rgba(39, 174, 96, 0.25) !important;
+      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4), 0 0 0 3px rgba(39, 174, 96, 0.2) !important;
+      outline: none !important;
     }
     
     .navbar-toggler-icon {
-      color: var(--accent-green) !important;
+      color: #27ae60 !important;
+      font-size: 1.2rem !important;
+      transition: all 0.3s ease !important;
+      pointer-events: none !important;
+    }
+    
+    .navbar-toggler:hover .navbar-toggler-icon {
+      color: #2ecc71 !important;
+      transform: rotate(90deg) !important;
+    }
+    
+    .navbar-toggler:active .navbar-toggler-icon {
+      color: #2ecc71 !important;
+      transform: rotate(90deg) scale(0.95) !important;
+    }
+    
+    .navbar-toggler:focus .navbar-toggler-icon {
+      color: #2ecc71 !important;
+      transform: rotate(90deg) !important;
+    }
+    
+    /* Touch-specific styles for mobile devices */
+    @media (hover: none) and (pointer: coarse) {
+      .navbar-toggler {
+        background: linear-gradient(135deg, rgba(39, 174, 96, 0.2), rgba(46, 204, 113, 0.15)) !important;
+      }
+      
+      .navbar-toggler:active {
+        transform: scale(0.95) !important;
+        background: linear-gradient(135deg, rgba(39, 174, 96, 0.3), rgba(46, 204, 113, 0.2)) !important;
+        box-shadow: 0 6px 18px rgba(39, 174, 96, 0.4), 0 3px 8px rgba(0, 0, 0, 0.15) !important;
+      }
+      
+      .navbar-toggler:active .navbar-toggler-icon {
+        transform: rotate(90deg) scale(1.1) !important;
+        color: #2ecc71 !important;
+      }
+    }
+
+    /* Modern Navigation Container */
+    .modern-nav-container {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 4px !important;
+      padding: 15px 0 !important;
+      width: auto !important;
+    }
+    
+    .nav-section {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 4px !important;
+      width: auto !important;
+    }
+    
+    .nav-main-section {
+      margin-bottom: 8px !important;
+    }
+    
+    .nav-auth-section {
+      margin-top: 8px !important;
+      margin-left: 8px !important;
+      margin-right: 32px !important; /* Add extra space from the right edge */
+    }
+    
+    /* Desktop Mode - Horizontal Layout */
+    @media (min-width: 992px) {
+      .modern-nav-container {
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 12px !important;
+        padding: 0 !important;
+      }
+      
+      .nav-section {
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 8px !important;
+      }
+      
+      .nav-main-section {
+        margin-bottom: 0 !important;
+        margin-right: 8px !important;
+      }
+      
+      .nav-auth-section {
+        margin-top: 0 !important;
+        margin-left: 8px !important;
+        margin-right: 32px !important; /* Add extra space from the right edge */
+      }
+      
+      .nav-separator {
+        width: 1px !important;
+        height: 30px !important;
+        background: linear-gradient(180deg, transparent, rgba(39, 174, 96, 0.3), transparent) !important;
+        margin: 0 8px !important;
+      }
+      
+      .nav-item-modern,
+      .nav-item-auth {
+        margin-bottom: 0 !important;
+      }
+    }
+    
+    .nav-separator {
+      width: 60px !important;
+      height: 1px !important;
+      background: linear-gradient(90deg, transparent, rgba(39, 174, 96, 0.3), transparent) !important;
+      margin: 6px auto !important;
+      align-self: center !important;
+    }
+    
+    /* Modern Navigation Items */
+    .nav-item-modern {
+      position: relative !important;
+      border-radius: 50px !important;
+      padding: 8px 16px !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      background: rgba(255, 255, 255, 0.02) !important;
+      border: 1px solid rgba(39, 174, 96, 0.1) !important;
+      width: 120px !important;
+      margin-bottom: 3px !important;
+      min-height: 36px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+    }
+    
+    .nav-item-auth {
+      position: relative !important;
+      border-radius: 50px !important;
+      padding: 10px 18px !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      border: 1px solid rgba(39, 174, 96, 0.2) !important;
+      background: linear-gradient(135deg, rgba(39, 174, 96, 0.08), rgba(46, 204, 113, 0.04)) !important;
+      width: 120px !important;
+      margin-bottom: 3px !important;
+      min-height: 40px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+    }
+    
+    .nav-signup {
+      background: linear-gradient(135deg, rgba(39, 174, 96, 0.12), rgba(46, 204, 113, 0.06)) !important;
+      border: 1px solid rgba(39, 174, 96, 0.25) !important;
+    }
+    
+    .nav-login {
+      background: linear-gradient(135deg, rgba(39, 174, 96, 0.06), rgba(46, 204, 113, 0.03)) !important;
+      border: 1px solid rgba(39, 174, 96, 0.15) !important;
+    }
+    
+    .nav-content {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      gap: 8px !important;
+      position: relative !important;
+      z-index: 2 !important;
+    }
+    
+    .nav-icon {
+      font-size: 1.1rem !important;
+      color: #27ae60 !important;
+      transition: all 0.3s ease !important;
+      min-width: 18px !important;
+    }
+    
+    .nav-text {
+      display: inline !important;
+      font-size: 0.9rem !important;
+      font-weight: 500 !important;
+      color: rgba(255, 255, 255, 0.9) !important;
+      transition: all 0.3s ease !important;
+      white-space: nowrap !important;
+    }
+    
+    .nav-underline {
+      display: none !important;
+      position: absolute !important;
+      left: 4px !important;
+      top: 50% !important;
+      width: 3px !important;
+      height: 0 !important;
+      background: linear-gradient(180deg, #27ae60, #2ecc71) !important;
+      border-radius: 2px !important;
+      transform: translateY(-50%) !important;
+      transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    .nav-highlight {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      background: linear-gradient(135deg, rgba(39, 174, 96, 0.15), rgba(46, 204, 113, 0.08)) !important;
+      border-radius: 50px !important;
+      opacity: 0 !important;
+      transform: scale(0.9) !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    /* Hover Effects */
+    .nav-item-modern:hover {
+      transform: translateY(-2px) !important;
+      background: rgba(39, 174, 96, 0.08) !important;
+      border-color: rgba(39, 174, 96, 0.25) !important;
+      box-shadow: 0 4px 15px rgba(39, 174, 96, 0.2) !important;
+    }
+    
+    .nav-item-modern:hover .nav-icon {
+      color: #2ecc71 !important;
+      transform: scale(1.1) !important;
+    }
+    
+    .nav-item-modern:hover .nav-text {
+      color: #ffffff !important;
+    }
+    
+    .nav-item-modern:hover .nav-underline {
+      height: 60% !important;
+    }
+    
+    .nav-item-auth:hover {
+      transform: translateY(-2px) scale(1.02) !important;
+      border-color: rgba(39, 174, 96, 0.4) !important;
+      box-shadow: 0 6px 20px rgba(39, 174, 96, 0.25) !important;
+    }
+    
+    .nav-item-auth:hover .nav-highlight {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+    }
+    
+    .nav-item-auth:hover .nav-icon {
+      color: #2ecc71 !important;
+      transform: scale(1.15) !important;
+    }
+    
+    .nav-item-auth:hover .nav-text {
+      color: #ffffff !important;
+      font-weight: 600 !important;
+    }
+    
+    .nav-signup:hover .nav-icon {
+      color: #f39c12 !important;
+    }
+    
+    /* Active States */
+    .nav-item-modern:active,
+    .nav-item-auth:active {
+      transform: translateY(0px) scale(0.98) !important;
+    }
+    
+    /* Current Page Indicator */
+    .nav-item-modern.current {
+      background: rgba(39, 174, 96, 0.15) !important;
+      border-color: rgba(39, 174, 96, 0.3) !important;
+    }
+    
+    .nav-item-modern.current .nav-underline {
+      height: 60% !important;
+    }
+    
+    .nav-item-modern.current .nav-icon {
+      color: #2ecc71 !important;
+    }
+    
+    .nav-item-modern.current .nav-text {
+      color: #ffffff !important;
+      font-weight: 600 !important;
     }
     
     .icon img {
@@ -1333,792 +1638,6 @@
       }
     }
     
-    @keyframes gradientFlow {
-      0%, 100% {
-        background-position: 0% 0% !important;
-      }
-      50% {
-        background-position: 100% 100% !important;
-      }
-    }
-    
-    @keyframes floatingOrbs {
-      0%, 100% {
-        transform: rotate(0deg) scale(1) !important;
-      }
-      25% {
-        transform: rotate(90deg) scale(1.1) !important;
-      }
-      50% {
-        transform: rotate(180deg) scale(0.9) !important;
-      }
-      75% {
-        transform: rotate(270deg) scale(1.05) !important;
-      }
-    }
-    
-    .gallery-title {
-      font-size: 3.2rem !important;
-      font-weight: 800 !important;
-      background: linear-gradient(45deg, #27ae60, #3498db, #f39c12) !important;
-      background-size: 200% 200% !important;
-      -webkit-background-clip: text !important;
-      -webkit-text-fill-color: transparent !important;
-      background-clip: text !important;
-      animation: gradientShift 3s ease-in-out infinite !important;
-      margin-bottom: 20px !important;
-      letter-spacing: 0.02em !important;
-    }
-    
-    .gallery-subtitle {
-      color: rgba(255, 255, 255, 0.8) !important;
-      font-size: 1.2rem !important;
-      font-weight: 300 !important;
-      letter-spacing: 0.5px !important;
-      margin-bottom: 0 !important;
-    }
-    
-    #gallery .tm-text-primary {
-      color: var(--accent-green) !important;
-    }
-    
-    .gallery-grid {
-      display: grid !important;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
-      gap: 30px !important;
-      padding: 0 20px !important;
-    }
-    
-    .tm-gallery-item {
-      background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.08) 0%, 
-        rgba(255, 255, 255, 0.12) 50%, 
-        rgba(255, 255, 255, 0.08) 100%) !important;
-      backdrop-filter: blur(20px) saturate(150%) !important;
-      -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
-      border: 1px solid rgba(255, 255, 255, 0.2) !important;
-      border-radius: 20px !important;
-      overflow: hidden !important;
-      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-      position: relative !important;
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
-    }
-    
-    .tm-gallery-item::before {
-      content: '' !important;
-      position: absolute !important;
-      top: 0 !important;
-      left: -100% !important;
-      width: 100% !important;
-      height: 100% !important;
-      background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(39, 174, 96, 0.1) 25%,
-        rgba(52, 152, 219, 0.1) 50%,
-        rgba(243, 156, 18, 0.1) 75%,
-        transparent 100%) !important;
-      transition: all 0.6s ease !important;
-      z-index: 1 !important;
-    }
-    
-    .tm-gallery-item img {
-      width: 100% !important;
-      height: 250px !important;
-      object-fit: cover !important;
-      transition: all 0.4s ease !important;
-      position: relative !important;
-      z-index: 2 !important;
-    }
-    
-    .gallery-item-overlay {
-      position: absolute !important;
-      bottom: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      background: linear-gradient(transparent 0%, rgba(0, 0, 0, 0.8) 100%) !important;
-      padding: 30px 20px 20px 20px !important;
-      transform: translateY(100%) !important;
-      transition: all 0.4s ease !important;
-      z-index: 3 !important;
-    }
-    
-    .gallery-item-title {
-      color: white !important;
-      font-size: 1.1rem !important;
-      font-weight: 600 !important;
-      margin-bottom: 8px !important;
-    }
-    
-    .gallery-item-description {
-      color: rgba(255, 255, 255, 0.8) !important;
-      font-size: 0.9rem !important;
-      line-height: 1.4 !important;
-      margin: 0 !important;
-    }
-    
-    .tm-gallery-item:hover {
-      transform: translateY(15px) scale(1.02) !important;
-      border-color: rgba(255, 255, 255, 0.4) !important;
-      box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        0 0 40px rgba(39, 174, 96, 0.15) !important;
-      background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.12) 0%, 
-        rgba(255, 255, 255, 0.18) 50%, 
-        rgba(255, 255, 255, 0.12) 100%) !important;
-    }
-    
-    .tm-gallery-item:hover::before {
-      left: 100% !important;
-    }
-    
-    .tm-gallery-item:hover img {
-      transform: scale(1.1) !important;
-    }
-    
-    .tm-gallery-item:hover .gallery-item-overlay {
-      transform: translateY(0) !important;
-    }
-    
-    /* Contact Section */
-    #contact {
-      background: var(--gradient-bg) !important;
-      position: relative !important;
-    }
-    
-    #contact::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url(img/image_13.png) center/cover no-repeat;
-      opacity: 0.3;
-      z-index: 0;
-    }
-    
-    #contact > * {
-      position: relative;
-      z-index: 1;
-    }
-    
-    .tm-input {
-      background: linear-gradient(145deg, 
-        rgba(255, 255, 255, 0.01) 0%,
-        rgba(255, 255, 255, 0.03) 25%,
-        rgba(39, 174, 96, 0.02) 50%,
-        rgba(52, 152, 219, 0.015) 75%,
-        rgba(255, 255, 255, 0.025) 100%) !important;
-      border: 1px solid rgba(255, 255, 255, 0.08) !important;
-      border-radius: 20px !important;
-      color: var(--text-light) !important;
-      backdrop-filter: blur(40px) saturate(2.2) brightness(1.1) !important;
-      box-shadow: 
-        0 12px 40px rgba(0, 0, 0, 0.05),
-        0 4px 16px rgba(39, 174, 96, 0.03),
-        inset 0 2px 4px rgba(255, 255, 255, 0.1),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.02) !important;
-      padding: 18px 24px !important;
-      font-size: 1rem !important;
-      letter-spacing: 0.5px !important;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      position: relative !important;
-      overflow: hidden !important;
-      animation: liquidBreathe 4s ease-in-out infinite !important;
-    }
-    
-    .tm-input::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -150%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, 
-        rgba(255, 255, 255, 0.08) 0%,
-        rgba(39, 174, 96, 0.04) 30%,
-        transparent 70%);
-      transition: all 0.8s ease;
-      z-index: 1;
-      animation: liquidFlow 6s ease-in-out infinite !important;
-    }
-    
-    .tm-input::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(120deg, 
-        transparent 0%,
-        rgba(255, 255, 255, 0.06) 45%,
-        rgba(255, 255, 255, 0.12) 50%,
-        rgba(255, 255, 255, 0.06) 55%,
-        transparent 100%);
-      transition: all 0.7s ease;
-      z-index: 2;
-    }
-    
-    .tm-input:hover::before {
-      left: 50%;
-      transform: scale(1.2);
-    }
-    
-    .tm-input:hover::after {
-      left: 100%;
-    }
-    
-    .tm-input:focus {
-      border-color: rgba(39, 174, 96, 0.2) !important;
-      background: linear-gradient(145deg, 
-        rgba(39, 174, 96, 0.03) 0%,
-        rgba(255, 255, 255, 0.04) 25%,
-        rgba(39, 174, 96, 0.05) 50%,
-        rgba(52, 152, 219, 0.025) 75%,
-        rgba(255, 255, 255, 0.035) 100%) !important;
-      box-shadow: 
-        0 16px 50px rgba(39, 174, 96, 0.08),
-        0 8px 25px rgba(0, 0, 0, 0.03),
-        0 0 0 4px rgba(39, 174, 96, 0.05),
-        inset 0 2px 6px rgba(255, 255, 255, 0.15),
-        inset 0 -2px 6px rgba(0, 0, 0, 0.02) !important;
-      transform: translateY(-3px) scale(1.01) !important;
-      outline: none !important;
-      animation: liquidPulse 2s ease-in-out infinite !important;
-    }
-    
-    .tm-input::placeholder {
-      color: rgba(255, 255, 255, 0.4) !important;
-      font-style: italic !important;
-      font-weight: 300 !important;
-    }
-    
-    @keyframes liquidBreathe {
-      0%, 100% {
-        transform: scale(1);
-        box-shadow: 
-          0 12px 40px rgba(0, 0, 0, 0.05),
-          0 4px 16px rgba(39, 174, 96, 0.03),
-          inset 0 2px 4px rgba(255, 255, 255, 0.1),
-          inset 0 -2px 4px rgba(0, 0, 0, 0.02);
-      }
-      50% {
-        transform: scale(1.002);
-        box-shadow: 
-          0 14px 45px rgba(0, 0, 0, 0.06),
-          0 5px 18px rgba(39, 174, 96, 0.04),
-          inset 0 2px 5px rgba(255, 255, 255, 0.12),
-          inset 0 -2px 5px rgba(0, 0, 0, 0.025);
-      }
-    }
-    
-    @keyframes liquidFlow {
-      0%, 100% {
-        transform: translateX(-20%) translateY(-20%) rotate(0deg);
-        opacity: 0.6;
-      }
-      33% {
-        transform: translateX(10%) translateY(-10%) rotate(120deg);
-        opacity: 0.8;
-      }
-      66% {
-        transform: translateX(-10%) translateY(10%) rotate(240deg);
-        opacity: 0.7;
-      }
-    }
-    
-    @keyframes liquidPulse {
-      0%, 100% {
-        box-shadow: 
-          0 16px 50px rgba(39, 174, 96, 0.08),
-          0 8px 25px rgba(0, 0, 0, 0.03),
-          0 0 0 4px rgba(39, 174, 96, 0.05),
-          inset 0 2px 6px rgba(255, 255, 255, 0.15),
-          inset 0 -2px 6px rgba(0, 0, 0, 0.02);
-      }
-      50% {
-        box-shadow: 
-          0 20px 60px rgba(39, 174, 96, 0.12),
-          0 10px 30px rgba(0, 0, 0, 0.04),
-          0 0 0 6px rgba(39, 174, 96, 0.08),
-          inset 0 3px 8px rgba(255, 255, 255, 0.2),
-          inset 0 -3px 8px rgba(0, 0, 0, 0.03);
-      }
-    }
-    
-    .tm-btn-submit {
-      background: linear-gradient(145deg, 
-        rgba(39, 174, 96, 0.7) 0%,
-        rgba(52, 152, 219, 0.7) 50%,
-        rgba(39, 174, 96, 0.8) 100%) !important;
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
-      border-radius: 30px !important;
-      padding: 18px 45px !important;
-      font-weight: 700 !important;
-      font-size: 1.1rem !important;
-      letter-spacing: 1.2px !important;
-      text-transform: uppercase !important;
-      color: white !important;
-      backdrop-filter: blur(35px) saturate(2) brightness(1.1) !important;
-      box-shadow: 
-        0 12px 40px rgba(39, 174, 96, 0.2),
-        0 6px 20px rgba(0, 0, 0, 0.05),
-        inset 0 2px 4px rgba(255, 255, 255, 0.2),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.05) !important;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      position: relative !important;
-      overflow: hidden !important;
-      animation: liquidButtonFloat 3s ease-in-out infinite !important;
-    }
-    
-    .tm-btn-submit::before {
-      content: '';
-      position: absolute;
-      top: -100%;
-      left: -100%;
-      width: 300%;
-      height: 300%;
-      background: radial-gradient(circle, 
-        rgba(255, 255, 255, 0.15) 0%,
-        rgba(255, 255, 255, 0.08) 30%,
-        transparent 60%);
-      transition: all 0.8s ease;
-      transform: rotate(45deg);
-      animation: liquidButtonShimmer 4s ease-in-out infinite !important;
-    }
-    
-    .tm-btn-submit::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: -150%;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, 
-        transparent 0%,
-        rgba(255, 255, 255, 0.6) 50%,
-        transparent 100%);
-      transition: all 0.6s ease;
-      transform: translateY(-50%);
-    }
-    
-    .tm-btn-submit:hover {
-      transform: translateY(-4px) scale(1.08) !important;
-      box-shadow: 
-        0 18px 55px rgba(39, 174, 96, 0.3),
-        0 10px 30px rgba(52, 152, 219, 0.15),
-        0 5px 15px rgba(0, 0, 0, 0.08),
-        inset 0 3px 6px rgba(255, 255, 255, 0.25),
-        inset 0 -3px 6px rgba(0, 0, 0, 0.08) !important;
-      background: linear-gradient(145deg, 
-        rgba(39, 174, 96, 0.9) 0%,
-        rgba(52, 152, 219, 0.9) 50%,
-        rgba(39, 174, 96, 1) 100%) !important;
-      border-color: rgba(255, 255, 255, 0.2) !important;
-    }
-    
-    .tm-btn-submit:hover::before {
-      top: -50%;
-      left: -50%;
-      animation: liquidButtonExplosion 0.8s ease-out;
-    }
-    
-    .tm-btn-submit:hover::after {
-      left: 150%;
-    }
-    
-    .tm-btn-submit:active {
-      transform: translateY(-2px) scale(1.05) !important;
-    }
-    
-    @keyframes liquidButtonFloat {
-      0%, 100% {
-        transform: translateY(0px);
-        box-shadow: 
-          0 12px 40px rgba(39, 174, 96, 0.2),
-          0 6px 20px rgba(0, 0, 0, 0.05),
-          inset 0 2px 4px rgba(255, 255, 255, 0.2),
-          inset 0 -2px 4px rgba(0, 0, 0, 0.05);
-      }
-      50% {
-        transform: translateY(-2px);
-        box-shadow: 
-          0 16px 48px rgba(39, 174, 96, 0.25),
-          0 8px 24px rgba(0, 0, 0, 0.06),
-          inset 0 3px 6px rgba(255, 255, 255, 0.25),
-          inset 0 -3px 6px rgba(0, 0, 0, 0.06);
-      }
-    }
-    
-    @keyframes liquidButtonShimmer {
-      0%, 100% {
-        transform: translateX(-30%) translateY(-30%) rotate(45deg) scale(0.8);
-        opacity: 0.6;
-      }
-      50% {
-        transform: translateX(0%) translateY(0%) rotate(45deg) scale(1);
-        opacity: 0.9;
-      }
-    }
-    
-    @keyframes liquidButtonExplosion {
-      0% {
-        transform: translateX(-50%) translateY(-50%) rotate(45deg) scale(1);
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateX(-50%) translateY(-50%) rotate(45deg) scale(3);
-        opacity: 0;
-      }
-    }
-    
-    .contact-item .item-link {
-      background: linear-gradient(145deg, 
-        rgba(255, 255, 255, 0.005) 0%,
-        rgba(255, 255, 255, 0.02) 25%,
-        rgba(39, 174, 96, 0.015) 50%,
-        rgba(52, 152, 219, 0.008) 75%,
-        rgba(255, 255, 255, 0.012) 100%) !important;
-      border: 1px solid rgba(255, 255, 255, 0.05) !important;
-      border-radius: 20px !important;
-      padding: 20px 24px !important;
-      margin-bottom: 18px !important;
-      display: flex !important;
-      align-items: center !important;
-      backdrop-filter: blur(35px) saturate(2.2) brightness(1.05) !important;
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.03),
-        0 4px 16px rgba(39, 174, 96, 0.02),
-        inset 0 2px 4px rgba(255, 255, 255, 0.06),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.01) !important;
-      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      position: relative !important;
-      overflow: hidden !important;
-      text-decoration: none !important;
-      color: var(--text-light) !important;
-      font-weight: 500 !important;
-      letter-spacing: 0.5px !important;
-      animation: liquidContactFloat 5s ease-in-out infinite !important;
-    }
-    
-    .contact-item .item-link::before {
-      content: '';
-      position: absolute;
-      top: -100%;
-      left: -100%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(ellipse, 
-        rgba(39, 174, 96, 0.08) 0%,
-        rgba(255, 255, 255, 0.04) 40%,
-        transparent 70%);
-      transition: all 1s ease;
-      z-index: 1;
-      animation: liquidContactOrb 6s ease-in-out infinite !important;
-    }
-    
-    .contact-item .item-link::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: -200%;
-      width: 150%;
-      height: 1px;
-      background: linear-gradient(90deg, 
-        transparent 0%,
-        rgba(39, 174, 96, 0.3) 30%,
-        rgba(255, 255, 255, 0.4) 50%,
-        rgba(52, 152, 219, 0.3) 70%,
-        transparent 100%);
-      transition: all 0.8s ease;
-      transform: translateY(-50%);
-      z-index: 2;
-    }
-    
-    .contact-item .item-link:hover {
-      background: linear-gradient(145deg, 
-        rgba(39, 174, 96, 0.03) 0%,
-        rgba(255, 255, 255, 0.04) 25%,
-        rgba(39, 174, 96, 0.05) 50%,
-        rgba(52, 152, 219, 0.025) 75%,
-        rgba(255, 255, 255, 0.035) 100%) !important;
-      transform: translateX(15px) translateY(-4px) scale(1.02) !important;
-      box-shadow: 
-        0 16px 50px rgba(39, 174, 96, 0.08),
-        0 8px 25px rgba(0, 0, 0, 0.04),
-        0 4px 12px rgba(52, 152, 219, 0.05),
-        inset 0 3px 6px rgba(255, 255, 255, 0.1),
-        inset 0 -3px 6px rgba(0, 0, 0, 0.02) !important;
-      border-color: rgba(39, 174, 96, 0.15) !important;
-    }
-    
-    .contact-item .item-link:hover::before {
-      top: -50%;
-      left: -50%;
-      transform: scale(1.5);
-    }
-    
-    .contact-item .item-link:hover::after {
-      left: 200%;
-    }
-    
-    .contact-item .item-link i {
-      color: var(--accent-green) !important;
-      margin-right: 18px !important;
-      transition: all 0.4s ease !important;
-      filter: drop-shadow(0 0 12px rgba(39, 174, 96, 0.2)) !important;
-      z-index: 3 !important;
-      position: relative !important;
-      animation: liquidIconPulse 3s ease-in-out infinite !important;
-    }
-    
-    .contact-item .item-link:hover i {
-      color: rgba(39, 174, 96, 1) !important;
-      transform: scale(1.15) rotate(5deg) !important;
-      filter: drop-shadow(0 0 20px rgba(39, 174, 96, 0.5)) !important;
-    }
-    
-    .contact-item .item-link span {
-      z-index: 3 !important;
-      position: relative !important;
-      transition: all 0.4s ease !important;
-      text-shadow: 0 0 8px rgba(255, 255, 255, 0.1) !important;
-    }
-    
-    .contact-item .item-link:hover span {
-      color: rgba(255, 255, 255, 0.95) !important;
-      text-shadow: 0 0 12px rgba(39, 174, 96, 0.2) !important;
-      transform: translateX(2px) !important;
-    }
-    
-    @keyframes liquidContactFloat {
-      0%, 100% {
-        transform: translateY(0px);
-      }
-      25% {
-        transform: translateY(-2px);
-      }
-      50% {
-        transform: translateY(-1px);
-      }
-      75% {
-        transform: translateY(-3px);
-      }
-    }
-    
-    @keyframes liquidContactOrb {
-      0%, 100% {
-        transform: translateX(-20%) translateY(-20%) scale(0.8);
-        opacity: 0.4;
-      }
-      33% {
-        transform: translateX(10%) translateY(-30%) scale(1);
-        opacity: 0.7;
-      }
-      66% {
-        transform: translateX(-30%) translateY(10%) scale(0.9);
-        opacity: 0.5;
-      }
-    }
-    
-    @keyframes liquidIconPulse {
-      0%, 100% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 12px rgba(39, 174, 96, 0.2));
-      }
-      50% {
-        transform: scale(1.05);
-        filter: drop-shadow(0 0 16px rgba(39, 174, 96, 0.3));
-      }
-    }
-    
-    /* Hero Text */
-    .tm-hero-title {
-      color: #FFD700 !important;
-      font-weight: 800 !important;
-      font-size: 4.5rem !important;
-      text-shadow: 
-        0 0 15px rgba(255, 215, 0, 0.9),
-        2px 2px 4px rgba(0, 0, 0, 0.5) !important;
-      letter-spacing: 1px !important;
-      animation: goldBlink 0.7s ease-in-out infinite alternate !important;
-    }
-    
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    @keyframes floatUp {
-      0%, 100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-10px);
-      }
-    }
-
-    /* Elegant Icon Animations */
-    @keyframes gentleShine {
-      0%, 100% {
-        transform: translateX(-100%) translateY(-100%) rotate(45deg);
-        opacity: 0;
-      }
-      50% {
-        transform: translateX(100%) translateY(100%) rotate(45deg);
-        opacity: 1;
-      }
-    }
-
-    @keyframes subtleBreathe {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.05);
-      }
-    }
-
-    @keyframes ambientGlow {
-      0% {
-        opacity: 0.3;
-        transform: scale(0.95);
-      }
-      100% {
-        opacity: 0.6;
-        transform: scale(1.05);
-      }
-    }
-
-    @keyframes dataWave {
-      0%, 100% {
-        transform: translateX(-100%);
-        opacity: 0;
-      }
-      50% {
-        transform: translateX(100%);
-        opacity: 1;
-      }
-    }
-
-    @keyframes chartPulse {
-      0%, 100% {
-        transform: scale(1) rotate(0deg);
-      }
-      25% {
-        transform: scale(1.08) rotate(1deg);
-      }
-      75% {
-        transform: scale(1.03) rotate(-1deg);
-      }
-    }
-
-    @keyframes progressBlink {
-      0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 0.4;
-        transform: scale(0.8);
-      }
-    }
-
-    /* Hover effects for elegant icons */
-    .evermore-icon-elegant:hover {
-      transform: translateY(-8px) scale(1.05);
-      box-shadow: 0 25px 50px rgba(39, 174, 96, 0.5), inset 0 2px 15px rgba(255, 255, 255, 0.2);
-      cursor: pointer;
-    }
-
-    .trading-icon-elegant:hover {
-      transform: translateY(-8px) scale(1.05);
-      box-shadow: 0 25px 50px rgba(52, 152, 219, 0.5), inset 0 2px 15px rgba(255, 255, 255, 0.2);
-      cursor: pointer;
-    }
-
-    .evermore-coin:hover {
-      animation: subtleBreathe 1s ease-in-out infinite;
-    }
-
-    .trading-chart:hover {
-      animation: chartPulse 1.5s ease-in-out infinite;
-    }
-    
-    /* Enhanced responsiveness for hero section */
-    @media (max-width: 768px) {
-      #infinite {
-        min-height: 100vh;
-        padding-bottom: 40px;
-      }
-      
-      .tm-hero-text-container {
-        padding: 80px 0 60px 0 !important;
-      }
-      
-      .tm-hero-text-container-inner {
-        margin-top: 0 !important;
-        padding-top: 0 !important;
-      }
-      
-      .hero-features {
-        flex-direction: column !important;
-        align-items: center !important;
-      }
-      
-      .hero-cta {
-        flex-direction: column !important;
-        align-items: center !important;
-      }
-      
-      .floating-stats {
-        bottom: 260px !important;
-        gap: 15px !important;
-        padding: 0 15px !important;
-      }
-      
-      .floating-stats .stat-item {
-        min-width: 120px !important;
-        padding: 18px 22px !important;
-      }
-      
-      .floating-stats .stat-item div:first-child {
-        font-size: 1.8rem !important;
-      }
-      
-      .floating-stats .stat-item div:last-child {
-        font-size: 0.85rem !important;
-      }
-      
-      .tm-hero-title {
-        font-size: 3rem !important;
-      }
-      
-      .hero-subtitle-container h2 {
-        font-size: 2rem !important;
-      }
-      
-      .hero-description {
-        padding: 20px !important;
-        margin: 0 20px 30px 20px !important;
-      }
-      
-      .tm-down-arrow-link {
-        bottom: 180px !important;
-      }
-    }
-    
     @media (max-width: 480px) {
       #infinite {
         min-height: 90vh;
@@ -2167,463 +1686,1246 @@
       }
     }
     
-    @keyframes goldBlink {
-      0% {
-        opacity: 0.8;
-        text-shadow: 
-          0 0 15px rgba(255, 215, 0, 0.6),
-          2px 2px 4px rgba(0, 0, 0, 0.5);
-      }
-      50% {
-        opacity: 1;
-        text-shadow: 
-          0 0 25px rgba(255, 215, 0, 1),
-          0 0 35px rgba(255, 255, 0, 0.8),
-          2px 2px 4px rgba(0, 0, 0, 0.5);
-      }
-      100% {
-        opacity: 0.9;
-        text-shadow: 
-          0 0 20px rgba(255, 215, 0, 0.9),
-          0 0 30px rgba(255, 255, 0, 0.6),
-          2px 2px 4px rgba(0, 0, 0, 0.5);
-      }
-    }
-    
-    
-    /* Down Arrow - Glass Liquid Design */
-    .tm-down-arrow {
-      background: linear-gradient(145deg, 
-        rgba(255, 255, 255, 0.25) 0%,
-        rgba(255, 255, 255, 0.1) 25%,
-        rgba(39, 174, 96, 0.3) 50%,
-        rgba(52, 152, 219, 0.25) 75%,
-        rgba(255, 255, 255, 0.15) 100%) !important;
-      backdrop-filter: blur(15px) saturate(1.5) !important;
-      border: 1px solid rgba(255, 255, 255, 0.3) !important;
-      border-radius: 50% !important;
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.15),
-        0 4px 16px rgba(39, 174, 96, 0.2),
-        inset 0 2px 4px rgba(255, 255, 255, 0.3),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.1) !important;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      width: 80px !important;
-      height: 80px !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      position: relative !important;
-      overflow: hidden !important;
-      animation: liquidFloat 3s ease-in-out infinite !important;
-    }
-    
-    .tm-down-arrow::before {
-      content: '';
-      position: absolute;
-      top: -100%;
-      left: 0;
-      width: 100%;
-      height: 200%;
-      background: linear-gradient(180deg, 
-        transparent 0%,
-        transparent 30%,
-        rgba(255, 255, 255, 0.3) 40%,
-        rgba(255, 255, 255, 0.6) 50%,
-        rgba(255, 255, 255, 0.3) 60%,
-        transparent 70%,
-        transparent 100%);
-      animation: liquidShine 4s ease-in-out infinite;
-      z-index: 1;
-    }
-    
-    .tm-down-arrow::after {
-      content: '';
-      position: absolute;
-      bottom: 20%;
-      left: 20%;
-      right: 20%;
-      height: 30%;
-      background: linear-gradient(90deg, 
-        rgba(39, 174, 96, 0.4) 0%,
-        rgba(52, 152, 219, 0.4) 50%,
-        rgba(39, 174, 96, 0.4) 100%);
-      border-radius: 50px;
-      filter: blur(2px);
-      animation: liquidWave 2s ease-in-out infinite alternate;
-    }
-    
-    .tm-down-arrow i {
-      color: rgba(255, 255, 255, 0.9) !important;
-      text-shadow: 0 0 10px rgba(39, 174, 96, 0.5) !important;
-      z-index: 2 !important;
-      position: relative !important;
-      animation: arrowPulse 2s ease-in-out infinite !important;
-      font-size: 1.8rem !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-    }
-    
-    .tm-down-arrow::after {
-      content: '\f078' !important;
-      font-family: 'Font Awesome 5 Free' !important;
-      font-weight: 900 !important;
-      position: absolute !important;
-      top: 50% !important;
-      left: 50% !important;
-      transform: translate(-50%, -50%) !important;
-      color: rgba(255, 255, 255, 0.9) !important;
-      font-size: 1.8rem !important;
-      text-shadow: 0 0 10px rgba(39, 174, 96, 0.5) !important;
-      z-index: 3 !important;
-      animation: arrowPulse 2s ease-in-out infinite !important;
-    }
-    
-    .tm-down-arrow:hover {
-      background: linear-gradient(145deg, 
-        rgba(255, 255, 255, 0.35) 0%,
-        rgba(255, 255, 255, 0.2) 25%,
-        rgba(39, 174, 96, 0.4) 50%,
-        rgba(52, 152, 219, 0.35) 75%,
-        rgba(255, 255, 255, 0.25) 100%) !important;
-      transform: translateY(-5px) scale(1.1) !important;
-      box-shadow: 
-        0 12px 40px rgba(0, 0, 0, 0.2),
-        0 6px 20px rgba(39, 174, 96, 0.3),
-        inset 0 2px 6px rgba(255, 255, 255, 0.4),
-        inset 0 -2px 6px rgba(0, 0, 0, 0.15) !important;
-      border-color: rgba(255, 255, 255, 0.5) !important;
-    }
-    
-    .tm-down-arrow:hover i {
-      color: rgba(255, 255, 255, 1) !important;
-      text-shadow: 0 0 15px rgba(39, 174, 96, 0.8) !important;
-      transform: translateY(-2px) !important;
-    }
-    
-    .tm-down-arrow:hover::after {
-      color: rgba(255, 255, 255, 1) !important;
-      text-shadow: 0 0 15px rgba(39, 174, 96, 0.8) !important;
-      transform: translate(-50%, -50%) translateY(-2px) !important;
-    }
-    
-    @keyframes liquidFloat {
-      0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-      }
-      25% {
-        transform: translateY(-8px) rotate(1deg);
-      }
-      50% {
-        transform: translateY(-5px) rotate(0deg);
-      }
-      75% {
-        transform: translateY(-10px) rotate(-1deg);
-      }
-    }
-    
-    @keyframes liquidShine {
-      0% {
-        transform: translateY(-200%);
-        opacity: 0;
-      }
-      30% {
-        opacity: 0.8;
-      }
-      70% {
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(200%);
-        opacity: 0;
-      }
-    }
-    
-    @keyframes liquidWave {
-      0% {
-        transform: scaleY(1) scaleX(1);
-        opacity: 0.6;
-      }
-      100% {
-        transform: scaleY(1.2) scaleX(1.1);
-        opacity: 0.8;
-      }
-    }
-    
-    @keyframes arrowPulse {
-      0%, 100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-3px);
-      }
-    }
-    
-    /* Card Effects */
-    .tm-content-box {
-      transition: all 0.3s ease;
-    }
-    
-    /* Scrollbar Styling */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    
-    ::-webkit-scrollbar-track {
-      background: var(--background-light);
-    }
-    
-    ::-webkit-scrollbar-thumb {
-      background: var(--accent-green);
-      border-radius: 4px;
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--primary-medium);
-    }
-    
-    /* Why EVERMORE Advantage Items Hover Effects */
-    .advantage-item:hover {
-      transform: translateY(-5px) scale(1.02) !important;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
-    }
-    
-    .advantage-item:hover::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(45deg, rgba(39, 174, 96, 0.05), rgba(52, 152, 219, 0.05));
-      z-index: -1;
-      border-radius: 15px;
-    }
-    
-    /* Testimonial Cards Hover Effects */
-    .testimonial-card:hover {
-      transform: translateY(-10px) scale(1.02) !important;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25) !important;
-    }
-    
-    /* What We Do Section Enhancements */
-    .what-we-do-container:hover {
-      transform: translateY(-5px) !important;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12) !important;
-    }
-    
-    /* Section Dividers */
-    section {
-      position: relative;
-    }
-    
-    section:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 3px;
-      background: linear-gradient(45deg, var(--accent-green), var(--accent-light));
-      border-radius: 2px;
-    }
-    
-    /* Responsive Design for Gallery Header */
-    @media (max-width: 768px) {
-      .gallery-header-glass {
-        padding: 40px 30px !important;
-        border-radius: 20px !important;
-        margin: 0 10px !important;
+    /* Landscape mobile orientation fixes */
+    @media (max-width: 768px) and (orientation: landscape) {
+      .tm-hero-text-container {
+        padding: 40px 0 80px 0 !important;
       }
       
-      .gallery-title-main {
-        font-size: 2.8rem !important;
+      .hero-stats {
+        margin-top: 20px !important;
       }
       
-      .gallery-title-sub {
-        font-size: 1.1rem !important;
-      }
-      
-      .gallery-desc-main {
-        font-size: 1.2rem !important;
-      }
-      
-      .gallery-desc-detail {
-        font-size: 0.95rem !important;
-      }
-      
-      .gallery-cta {
-        padding: 16px 25px !important;
-        flex-direction: column !important;
-        gap: 10px !important;
-      }
-      
-      .gallery-cta-text {
-        font-size: 0.9rem !important;
-        text-align: center !important;
+      .tm-down-arrow-link {
+        bottom: 40px !important;
       }
     }
+  </style>
+</head>
+
+<body>
+  <!-- Login Modal -->
+  <div id="loginModal" class="login-modal">
+    <div class="login-modal-content">
+      <button class="login-close" onclick="closeLoginModal()">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="login-content">
+        <div class="login-logo">
+          <h1><i class="fas fa-coins"></i> EVERMORE</h1>
+          <p>Access Your Trading Dashboard</p>
+        </div>
+        
+        <div class="login-error" id="loginError">
+          Invalid username or password. Please try again.
+        </div>
+        
+        <form id="loginForm">
+          <div class="login-form-group">
+            <label for="loginUsername"><i class="fas fa-user"></i> Username</label>
+            <input type="text" class="login-form-control" id="loginUsername" placeholder="Enter your username" required>
+          </div>
+          
+          <div class="login-form-group">
+            <label for="loginPassword"><i class="fas fa-lock"></i> Password</label>
+            <input type="password" class="login-form-control" id="loginPassword" placeholder="Enter your password" required>
+          </div>
+          
+          <button type="submit" class="login-btn">
+            <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+          </button>
+        </form>
+        
+        <div class="login-link">
+          Don't have an account? <a href="#" onclick="closeLoginModal(); openSignupModal();" style="color: #3498db; text-decoration: none; font-weight: 600;">Sign up here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sign Up Modal -->
+  <div id="signupModal" class="signup-modal">
+    <div class="signup-modal-content">
+      <button class="signup-close" onclick="closeSignupModal()">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="signup-content">
+        <div class="signup-logo">
+          <h1><i class="fas fa-user-plus"></i> Join EVERMORE</h1>
+          <p>Create Your Trading Account</p>
+        </div>
+        
+        <div class="signup-error" id="signupError">
+          Please fill in all required fields correctly.
+        </div>
+        
+        <div class="signup-success" id="signupSuccess">
+          Account created successfully! You can now login.
+        </div>
+        
+        <form id="signupForm">
+          <div class="signup-form-row">
+            <div class="signup-form-col">
+              <div class="signup-form-group">
+                <label for="signupFirstName"><i class="fas fa-user"></i> First Name</label>
+                <input type="text" class="signup-form-control" id="signupFirstName" placeholder="Enter your first name" required>
+              </div>
+            </div>
+            <div class="signup-form-col">
+              <div class="signup-form-group">
+                <label for="signupLastName"><i class="fas fa-user"></i> Last Name</label>
+                <input type="text" class="signup-form-control" id="signupLastName" placeholder="Enter your last name" required>
+              </div>
+            </div>
+          </div>
+          
+          <div class="signup-form-group">
+            <label for="signupEmail"><i class="fas fa-envelope"></i> Email Address</label>
+            <input type="email" class="signup-form-control" id="signupEmail" placeholder="Enter your email address" required>
+          </div>
+          
+          <div class="signup-form-group">
+            <label for="signupUsername"><i class="fas fa-user-circle"></i> Username</label>
+            <input type="text" class="signup-form-control" id="signupUsername" placeholder="Choose a username" required>
+          </div>
+          
+          <div class="signup-form-row">
+            <div class="signup-form-col">
+              <div class="signup-form-group">
+                <label for="signupPassword"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" class="signup-form-control" id="signupPassword" placeholder="Create a password" required>
+              </div>
+            </div>
+            <div class="signup-form-col">
+              <div class="signup-form-group">
+                <label for="signupConfirmPassword"><i class="fas fa-lock"></i> Confirm Password</label>
+                <input type="password" class="signup-form-control" id="signupConfirmPassword" placeholder="Confirm your password" required>
+              </div>
+            </div>
+          </div>
+          
+          <button type="submit" class="signup-btn">
+            <i class="fas fa-user-plus"></i> Create Account
+          </button>
+        </form>
+        
+        <div class="login-link">
+          Already have an account? <a href="#" onclick="closeSignupModal(); openLoginModal();">Login here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero section -->
+  <section id="infinite" class="text-white tm-font-big tm-parallax" style="position: relative;">
+    <!-- Dark overlay -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)); z-index: 1;"></div>
     
-    @media (max-width: 480px) {
-      .gallery-header-container {
-        padding: 0 10px !important;
-        margin-bottom: 60px !important;
-      }
-      
-      .gallery-header-glass {
-        padding: 30px 20px !important;
-        border-radius: 15px !important;
-      }
-      
-      .gallery-title-main {
-        font-size: 2.2rem !important;
-        letter-spacing: -0.01em !important;
-      }
-      
-      .gallery-title-sub {
-        font-size: 1rem !important;
-        letter-spacing: 0.05em !important;
-      }
-      
-      .gallery-desc-main {
-        font-size: 1.1rem !important;
-        margin-bottom: 15px !important;
-      }
-      
-      .gallery-desc-detail {
-        font-size: 0.9rem !important;
-        margin-bottom: 25px !important;
-      }
-      
-      .gallery-cta {
-        padding: 14px 20px !important;
-        max-width: 100% !important;
-      }
-    }
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg tm-navbar" id="tmNav" style="position: relative; z-index: 10;">
+      <style>
+        icon{
+          background-image: url('img/icon.png');
+          background-color: green;
+          width: 30px;
+          height: 30px;
+          background-blend-mode: lighten;
+        }
+      </style>
+      <div class="container">
+        <div class="icon">
+          <img src="img/logo_00.png" loading="eager" alt="EVERMORE Logo" class="navbar-brand-icon" width="40" height="40"/>
+        </div>
+        <div class="tm-next">
+          <a href="#minecraft-crypto" class="navbar-brand evermore-brand">
+            <strong>EVERMORE</strong>
+          </a>
+        </div>
 
-    /* Login Modal Styles */
-    .login-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(10px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 10000;
-      animation: fadeIn 0.3s ease-out;
-    }
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars navbar-toggler-icon"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto modern-nav-container">
+            <!-- Main Navigation Section -->
+            <div class="nav-section nav-main-section">
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link nav-item-modern" href="#minecraft-crypto">
+                  <div class="nav-content">
+                    <i class="fas fa-home nav-icon"></i>
+                    <span class="nav-text">Home</span>
+                  </div>
+                  <div class="nav-underline"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link nav-item-modern" href="#whatwedo">
+                  <div class="nav-content">
+                    <i class="fas fa-cogs nav-icon"></i>
+                    <span class="nav-text">Services</span>
+                  </div>
+                  <div class="nav-underline"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link nav-item-modern" href="#testimonials">
+                  <div class="nav-content">
+                    <i class="fas fa-quote-left nav-icon"></i>
+                    <span class="nav-text">Reviews</span>
+                  </div>
+                  <div class="nav-underline"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link nav-item-modern" href="#gallery">
+                  <div class="nav-content">
+                    <i class="fas fa-images nav-icon"></i>
+                    <span class="nav-text">Gallery</span>
+                  </div>
+                  <div class="nav-underline"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link nav-item-modern" href="#contact">
+                  <div class="nav-content">
+                    <i class="fas fa-paper-plane nav-icon"></i>
+                    <span class="nav-text">Contact</span>
+                  </div>
+                  <div class="nav-underline"></div>
+                </a>
+              </li>
+            </div>
+            
+            <!-- Separator -->
+            <div class="nav-separator"></div>
+            
+            <!-- Auth Navigation Section -->
+            <div class="nav-section nav-auth-section">
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link nav-item-auth nav-signup" href="#" onclick="openSignupModal()">
+                  <div class="nav-content">
+                    <i class="fas fa-rocket nav-icon"></i>
+                    <span class="nav-text">Get Started</span>
+                  </div>
+                  <div class="nav-highlight"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link nav-item-auth nav-login" href="#" onclick="openLoginModal()">
+                  <div class="nav-content">
+                    <i class="fas fa-sign-in-alt nav-icon"></i>
+                    <span class="nav-text">Sign In</span>
+                  </div>
+                  <div class="nav-highlight"></div>
+                </a>
+              </li>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-    .login-modal.show {
-      display: flex;
-    }
+    <div class="text-center tm-hero-text-container" style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 120px 0 160px 0; position: relative; z-index: 5;">
+      <div class="tm-hero-text-container-inner" style="margin-top: 0; padding-top: 0; width: 100%; max-width: 900px;">
+        
+        <!-- Main Title with Enhanced Animation -->
+        <h1 class="tm-hero-title" style="margin-bottom: 30px; animation: fadeInUp 1.2s ease-out 0.3s both;">Minecraft Crypto</h1>
+        
+        <!-- Simple Subtitle -->
+        <div class="hero-subtitle-container" style="animation: fadeInUp 1.4s ease-out 0.6s both;">
+          <h2 style="color: #FFD700; font-size: 2.2rem; font-weight: 600; margin-bottom: 30px; text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); letter-spacing: 0.3px;">
+            The Future of Minecraft Trading
+          </h2>
+          
+          <!-- Simplified Description -->
+          <div class="hero-description" style="max-width: 600px; margin: 0 auto 50px auto;">
+            <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.2rem; line-height: 1.7; margin-bottom: 0; font-weight: 400;">
+              Trade, earn, and grow with <span style="background: linear-gradient(45deg, #2ecc71, #27ae60); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700; font-size: 1.3rem; letter-spacing: 1px; text-shadow: 0 0 15px rgba(39, 174, 96, 0.4);">EVERMORE</span> — the revolutionary cryptocurrency built specifically for the Minecraft community.
+            </p>
+          </div>
+            
+          <!-- Simple CTA Buttons -->
+          <div class="hero-cta" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; animation: fadeInUp 1.6s ease-out 0.8s both;">
+            <a href="#gallery" class="btn-secondary-hero" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)); backdrop-filter: blur(20px); color: white; padding: 18px 40px; border-radius: 30px; font-weight: 700; font-size: 1.1rem; text-decoration: none; display: flex; align-items: center; gap: 12px; border: 2px solid rgba(255, 255, 255, 0.3); transition: all 0.3s ease;" onmouseover="this.style.background='linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1))'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))'; this.style.transform='translateY(0)'">
+              <i class="fas fa-images"></i> View Gallery
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    .login-modal-content {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-      backdrop-filter: blur(25px);
-      border-radius: 25px;
-      padding: 3rem;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-      max-width: 450px;
-      width: 90%;
-      position: relative;
-      overflow: hidden;
-      animation: slideInUp 0.4s ease-out;
-    }
+    <div class="tm-next tm-intro-next">
+      <a href="#whatwedo" class="text-center tm-down-arrow-link" style="position: absolute; left: 50%; transform: translateX(-50%); bottom: -20px; z-index: 15;">
+        <i class="fas fa-2x fa-arrow-down tm-down-arrow"></i>
+      </a>
+    </div>
+  </section>
+  <!-- What we do -->
+  <section id="whatwedo" class="tm-section-pad-top">
+    <div class="container" style="position: relative; z-index: 2;">
+      <!-- Hero Header Section -->
+      <div class="row">
+        <div class="col-12">
+          <div style="text-align: center; margin-bottom: 5rem; position: relative;">
+            <h2 class="tm-text-primary mb-4 tm-section-title" style="font-size: 3.5rem; font-weight: 900; background: linear-gradient(45deg, #27ae60, #3498db, #f39c12); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradientShift 3s ease-in-out infinite; text-shadow: none; margin-bottom: 1rem;">
+              <strong>What We Do</strong>
+            </h2>
+            <div style="width: 100px; height: 4px; background: linear-gradient(45deg, #27ae60, #3498db, #f39c12); margin: 0 auto 2rem auto; border-radius: 2px; animation: gradientShift 3s ease-in-out infinite;"></div>
+            <p style="font-size: 1.3rem; color: rgba(255, 255, 255, 0.9); max-width: 700px; margin: 0 auto 3rem auto; line-height: 1.6; font-weight: 300;">
+              Revolutionizing the Minecraft ecosystem with cutting-edge blockchain technology and seamless cryptocurrency integration.
+            </p>
+            
+            <!-- Key Features Pills from Hero -->
+            <div class="hero-features" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 3rem;">
+              <span class="feature-pill" style="
+                position: relative;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+                backdrop-filter: blur(15px);
+                color: white;
+                padding: 12px 25px;
+                border-radius: 25px;
+                font-size: 1rem;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                transition: all 0.3s ease;
+                overflow: hidden;
+              " 
+              onmouseover="this.style.transform='translateY(-3px) scale(1.05)'" 
+              onmouseout="this.style.transform='translateY(0) scale(1)'">
+                <div style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  bottom: 0;
+                  background: 
+                    radial-gradient(ellipse 40px 30px at 20% 30%, rgba(39, 174, 96, 0.3) 0%, transparent 70%),
+                    radial-gradient(ellipse 35px 25px at 70% 60%, rgba(52, 152, 219, 0.25) 0%, transparent 70%),
+                    radial-gradient(ellipse 25px 20px at 50% 80%, rgba(46, 204, 113, 0.2) 0%, transparent 70%);
+                  border-radius: 25px;
+                  opacity: 0.7;
+                  pointer-events: none;
+                  animation: liquidFlow1 8s ease-in-out infinite;
+                "></div>
+                <i class="fas fa-shield-alt" style="position: relative; z-index: 2;"></i>
+                <span style="position: relative; z-index: 2;">Secure Trading</span>
+              </span>
+              
+              <span class="feature-pill" style="
+                position: relative;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+                backdrop-filter: blur(15px);
+                color: white;
+                padding: 12px 25px;
+                border-radius: 25px;
+                font-size: 1rem;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                transition: all 0.3s ease;
+                overflow: hidden;
+              " 
+              onmouseover="this.style.transform='translateY(-3px) scale(1.05)'" 
+              onmouseout="this.style.transform='translateY(0) scale(1)'">
+                <div style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  bottom: 0;
+                  background: 
+                    radial-gradient(ellipse 45px 35px at 30% 20%, rgba(52, 152, 219, 0.35) 0%, transparent 70%),
+                    radial-gradient(ellipse 30px 25px at 80% 70%, rgba(155, 89, 182, 0.25) 0%, transparent 70%),
+                    radial-gradient(ellipse 25px 20px at 50% 80%, rgba(46, 204, 113, 0.2) 0%, transparent 70%);
+                  border-radius: 25px;
+                  opacity: 0.7;
+                  pointer-events: none;
+                  animation: liquidFlow2 10s ease-in-out infinite;
+                "></div>
+                <i class="fas fa-bolt" style="position: relative; z-index: 2;"></i>
+                <span style="position: relative; z-index: 2;">Lightning Fast</span>
+              </span>
+              
+              <span class="feature-pill" style="
+                position: relative;
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+                backdrop-filter: blur(15px);
+                color: white;
+                padding: 12px 25px;
+                border-radius: 25px;
+                font-size: 1rem;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                transition: all 0.3s ease;
+                overflow: hidden;
+              " 
+              onmouseover="this.style.transform='translateY(-3px) scale(1.05)'" 
+              onmouseout="this.style.transform='translateY(0) scale(1)'">
+                <div style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  bottom: 0;
+                  background: 
+                    radial-gradient(ellipse 40px 30px at 60% 25%, rgba(243, 156, 18, 0.3) 0%, transparent 70%),
+                    radial-gradient(ellipse 30px 25px at 20% 75%, rgba(231, 76, 60, 0.25) 0%, transparent 70%),
+                    radial-gradient(ellipse 35px 28px at 85% 50%, rgba(230, 126, 34, 0.2) 0%, transparent 70%);
+                  border-radius: 25px;
+                  opacity: 0.7;
+                  pointer-events: none;
+                  animation: liquidFlow3 12s ease-in-out infinite;
+                "></div>
+                <i class="fas fa-users" style="position: relative; z-index: 2;"></i>
+                <span style="position: relative; z-index: 2;">Community Driven</span>
+              </span>
+            </div>
 
-    .login-modal-content::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, rgba(39, 174, 96, 0.1) 0%, transparent 70%);
-      animation: floatUp 6s ease-in-out infinite;
-      z-index: 1;
-    }
+            <style>
+              @keyframes liquidFlow1 {
+                0%, 100% {
+                  background: 
+                    radial-gradient(ellipse 40px 30px at 20% 30%, rgba(39, 174, 96, 0.3) 0%, transparent 70%),
+                    radial-gradient(ellipse 35px 25px at 70% 60%, rgba(52, 152, 219, 0.25) 0%, transparent 70%),
+                    radial-gradient(ellipse 25px 20px at 50% 80%, rgba(46, 204, 113, 0.2) 0%, transparent 70%);
+                }
+                25% {
+                  background: 
+                    radial-gradient(ellipse 40px 30px at 80% 20%, rgba(39, 174, 96, 0.3) 0%, transparent 70%),
+                    radial-gradient(ellipse 35px 25px at 30% 90%, rgba(52, 152, 219, 0.25) 0%, transparent 70%),
+                    radial-gradient(ellipse 25px 20px at 60% 40%, rgba(46, 204, 113, 0.2) 0%, transparent 70%);
+                }
+                50% {
+                  background: 
+                    radial-gradient(ellipse 40px 30px at 40% 70%, rgba(39, 174, 96, 0.3) 0%, transparent 70%),
+                    radial-gradient(ellipse 35px 25px at 85% 30%, rgba(52, 152, 219, 0.25) 0%, transparent 70%),
+                    radial-gradient(ellipse 25px 20px at 15% 60%, rgba(46, 204, 113, 0.2) 0%, transparent 70%);
+                }
+                75% {
+                  background: 
+                    radial-gradient(ellipse 40px 30px at 75% 85%, rgba(39, 174, 96, 0.3) 0%, transparent 70%),
+                    radial-gradient(ellipse 35px 25px at 25% 25%, rgba(52, 152, 219, 0.25) 0%, transparent 70%),
+                    radial-gradient(ellipse 25px 20px at 90% 75%, rgba(46, 204, 113, 0.2) 0%, transparent 70%);
+                }
+              }
 
-    .login-content {
-      position: relative;
-      z-index: 2;
-    }
+              @keyframes liquidFlow2 {
+                0%, 100% {
+                  background: 
+                    radial-gradient(ellipse 45px 35px at 30% 20%, rgba(52, 152, 219, 0.35) 0%, transparent 70%),
+                    radial-gradient(ellipse 30px 25px at 80% 70%, rgba(155, 89, 182, 0.25) 0%, transparent 70%),
+                    radial-gradient(ellipse 25px 20px at 50% 80%, rgba(46, 204, 113, 0.2) 0%, transparent 70%);
+                }
+                33% {
+                  background: 
+                    radial-gradient(ellipse 45px 35px at 70% 80%, rgba(52, 152, 219, 0.35) 0%, transparent 70%),
+                    radial-gradient(ellipse 30px 25px at 20% 30%, rgba(155, 89, 182, 0.25) 0%, transparent 70%),
+                    radial-gradient(ellipse 35px 30px at 85% 50%, rgba(41, 128, 185, 0.2) 0%, transparent 70%);
+                }
+                66% {
+                  background: 
+                    radial-gradient(ellipse 45px 35px at 10% 50%, rgba(52, 152, 219, 0.35) 0%, transparent 70%),
+                    radial-gradient(ellipse 30px 25px at 90% 20%, rgba(155, 89, 182, 0.25) 0%, transparent 70%),
+                    radial-gradient(ellipse 35px 30px at 40% 85%, rgba(41, 128, 185, 0.2) 0%, transparent 70%);
+                }
+              }
 
-    .login-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: none;
-      border: none;
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 1.5rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 3;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+              @keyframes liquidFlow3 {
+                0%, 100% {
+                  background: 
+                    radial-gradient(ellipse 40px 30px at 60% 25%, rgba(243, 156, 18, 0.3) 0%, transparent 70%),
+                    radial-gradient(ellipse 30px 25px at 20% 75%, rgba(231, 76, 60, 0.25) 0%, transparent 70%),
+                    radial-gradient(ellipse 35px 28px at 85% 50%, rgba(230, 126, 34, 0.2) 0%, transparent 70%);
+                }
+                40% {
+                  background: 
+                    radial-gradient(ellipse 40px 30px at 25% 80%, rgba(243, 156, 18, 0.3) 0%, transparent 70%),
+                    radial-gradient(ellipse 30px 25px at 75% 20%, rgba(231, 76, 60, 0.25) 0%, transparent 70%),
+                    radial-gradient(ellipse 35px 28px at 50% 90%, rgba(230, 126, 34, 0.2) 0%, transparent 70%);
+                }
+                80% {
+                  background: 
+                    radial-gradient(ellipse 40px 30px at 90% 60%, rgba(243, 156, 18, 0.3) 0%, transparent 70%),
+                    radial-gradient(ellipse 30px 25px at 40% 30%, rgba(231, 76, 60, 0.25) 0%, transparent 70%),
+                    radial-gradient(ellipse 35px 28px at 10% 80%, rgba(230, 126, 34, 0.2) 0%, transparent 70%);
+                }
+              }
+            </style>
+          </div>
+        </div>
+      </div>
 
-    .login-close:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #e74c3c;
-      transform: scale(1.1);
-    }
+      <!-- Main Content Cards -->
+      <div class="row" style="margin-bottom: 4rem;">
+        <!-- EVERMORE Overview Card -->
+        <div class="col-lg-6 mb-4">
+          <div style="background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(39, 174, 96, 0.05)); backdrop-filter: blur(20px); border: 1px solid rgba(39, 174, 96, 0.3); border-radius: 25px; padding: 3rem; height: 100%; position: relative; overflow: hidden; transition: all 0.4s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 25px 50px rgba(39, 174, 96, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <!-- Background Animation -->
+            <div style="position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(39, 174, 96, 0.1) 0%, transparent 70%); animation: floatUp 8s ease-in-out infinite; z-index: 1;"></div>
+            
+            <div style="position: relative; z-index: 2;">
+              <!-- Icon Header -->
+              <div style="display: flex; align-items: center; margin-bottom: 2rem;">
+                <div class="evermore-icon-elegant" style="background: linear-gradient(135deg, #1e3c72, #2a5298, #27ae60); width: 80px; height: 80px; border-radius: 25px; display: flex; align-items: center; justify-content: center; margin-right: 2rem; box-shadow: 0 10px 25px rgba(39, 174, 96, 0.3), inset 0 2px 10px rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                  <!-- Subtle shine effect -->
+                  <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%); animation: shimmer 3s ease-in-out infinite;"></div>
+                  <!-- Icon with micro animation -->
+                  <i class="fas fa-coins evermore-coin" style="color: white; font-size: 2rem; position: relative; z-index: 2; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); animation: subtleBreathe 3s ease-in-out infinite;"></i>
+                  <!-- Ambient glow -->
+                  <div style="position: absolute; inset: -5px; background: radial-gradient(circle at center, rgba(39, 174, 96, 0.4) 0%, transparent 60%); border-radius: 30px; animation: ambientGlow 5s ease-in-out infinite alternate; z-index: 1;"></div>
+                </div>
+                <div>
+                  <h3 style="color: #27ae60; font-weight: 800; font-size: 1.8rem; margin: 0 0 0.5rem 0;">EVERMORE Token</h3>
+                  <p style="color: rgba(255, 255, 255, 0.8); margin: 0; font-size: 1rem;">Next-Gen Minecraft Currency</p>
+                </div>
+              </div>
 
-    .login-logo {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
+              <!-- Description -->
+              <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                <strong style="color: #27ae60;">EVERMORE</strong> is the world's first cryptocurrency designed exclusively for the Minecraft ecosystem. Built on cutting-edge blockchain technology, it enables <span style="color: #3498db; font-weight: 600;">instant, secure, and low-cost transactions</span> for all your Minecraft trading needs.
+              </p>
 
-    .login-logo h1 {
-      color: #27ae60;
-      font-size: 2rem;
-      font-weight: 800;
-      margin-bottom: 0.5rem;
-    }
+              <!-- Key Benefits -->
+              <div style="margin-bottom: 2rem;">
+                <div style="display: flex; align-items: center; margin-bottom: 1rem; color: rgba(255, 255, 255, 0.9);">
+                  <i class="fas fa-check-circle" style="color: #27ae60; margin-right: 12px; font-size: 1.1rem;"></i>
+                  <span style="font-size: 1rem;">Lightning-fast transactions (under 3 seconds)</span>
+                </div>
+                <div style="display: flex; align-items: center; margin-bottom: 1rem; color: rgba(255, 255, 255, 0.9);">
+                  <i class="fas fa-check-circle" style="color: #27ae60; margin-right: 12px; font-size: 1.1rem;"></i>
+                  <span style="font-size: 1rem;">Ultra-low fees (less than $0.01 per transaction)</span>
+                </div>
+                <div style="display: flex; align-items: center; color: rgba(255, 255, 255, 0.9);">
+                  <i class="fas fa-check-circle" style="color: #27ae60; margin-right: 12px; font-size: 1.1rem;"></i>
+                  <span style="font-size: 1rem;">Cross-server compatibility with 500+ Minecraft servers</span>
+                </div>
+              </div>
 
-    .login-logo p {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 1rem;
-    }
+              <!-- CTA Button -->
+              <a href="#testimonials" style="background: linear-gradient(45deg, #27ae60, #2ecc71); color: white; padding: 15px 30px; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3); display: inline-flex; align-items: center; gap: 10px;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 12px 30px rgba(39, 174, 96, 0.5)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(39, 174, 96, 0.3)'">
+                <i class="fas fa-rocket"></i>
+                Start Trading Now
+              </a>
+            </div>
+          </div>
+        </div>
 
-    .login-form-group {
-      margin-bottom: 1.5rem;
-    }
+        <!-- Trading Platform Card -->
+        <div class="col-lg-6 mb-4">
+          <div style="background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(52, 152, 219, 0.05)); backdrop-filter: blur(20px); border: 1px solid rgba(52, 152, 219, 0.3); border-radius: 25px; padding: 3rem; height: 100%; position: relative; overflow: hidden; transition: all 0.4s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 25px 50px rgba(52, 152, 219, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <!-- Background Animation -->
+            <div style="position: absolute; top: -50%; left: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(52, 152, 219, 0.1) 0%, transparent 70%); animation: floatUp 10s ease-in-out infinite; z-index: 1;"></div>
+            
+            <div style="position: relative; z-index: 2;">
+              <!-- Icon Header -->
+              <div style="display: flex; align-items: center; margin-bottom: 2rem;">
+                <div class="trading-icon-elegant" style="background: linear-gradient(135deg, #667eea, #764ba2, #3498db); width: 80px; height: 80px; border-radius: 25px; display: flex; align-items: center; justify-content: center; margin-right: 2rem; box-shadow: 0 10px 25px rgba(52, 152, 219, 0.3), inset 0 2px 10px rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                  <!-- Dynamic wave effect -->
+                  <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 20px; background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%); animation: dataWave 3s ease-in-out infinite;"></div>
+                  <!-- Icon with growth animation -->
+                  <i class="fas fa-chart-line trading-chart" style="color: white; font-size: 2rem; position: relative; z-index: 2; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); animation: chartPulse 2.5s ease-in-out infinite;"></i>
+                  <!-- Ambient glow -->
+                  <div style="position: absolute; inset: -5px; background: radial-gradient(circle at center, rgba(52, 152, 219, 0.4) 0%, transparent 60%); border-radius: 30px; animation: ambientGlow 5s ease-in-out infinite alternate; z-index: 1;"></div>
+                </div>
+                <div>
+                  <h3 style="color: #3498db; font-weight: 800; font-size: 1.8rem; margin: 0 0 0.5rem 0;">Trading Platform</h3>
+                  <p style="color: rgba(255, 255, 255, 0.8); margin: 0; font-size: 1rem;">Professional Trading Suite</p>
+                </div>
+              </div>
 
-    .login-form-group label {
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      display: block;
-    }
+              <!-- Description -->
+              <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                Our state-of-the-art trading platform provides everything you need to trade Minecraft items, skins, mods, and resources with <span style="color: #3498db; font-weight: 600;">institutional-grade security</span> and user-friendly interfaces designed for both beginners and pros.
+              </p>
 
-    .login-form-control {
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-radius: 15px;
-      padding: 15px 20px;
-      color: white;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      width: 100%;
-    }
+              <!-- Key Features -->
+              <div style="margin-bottom: 2rem;">
+                <div style="display: flex; align-items: center; margin-bottom: 1rem; color: rgba(255, 255, 255, 0.9);">
+                  <i class="fas fa-check-circle" style="color: #3498db; margin-right: 12px; font-size: 1.1rem;"></i>
+                  <span style="font-size: 1rem;">Real-time market data and price charts</span>
+                </div>
+                <div style="display: flex; align-items: center; margin-bottom: 1rem; color: rgba(255, 255, 255, 0.9);">
+                  <i class="fas fa-check-circle" style="color: #3498db; margin-right: 12px; font-size: 1.1rem;"></i>
+                  <span style="font-size: 1rem;">Advanced order types and portfolio management</span>
+                </div>
+                <div style="display: flex; align-items: center; color: rgba(255, 255, 255, 0.9);">
+                  <i class="fas fa-check-circle" style="color: #3498db; margin-right: 12px; font-size: 1.1rem;"></i>
+                  <span style="font-size: 1rem;">Mobile app with push notifications</span>
+                </div>
+              </div>
 
-    .login-form-control:focus {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: #27ae60;
-      box-shadow: 0 0 0 0.2rem rgba(39, 174, 96, 0.25);
-      color: white;
-      outline: none;
+              <!-- CTA Button -->
+              <a href="#gallery" style="background: linear-gradient(45deg, #3498db, #5dade2); color: white; padding: 15px 30px; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3); display: inline-flex; align-items: center; gap: 10px;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 12px 30px rgba(52, 152, 219, 0.5)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(52, 152, 219, 0.3)'">
+                <i class="fas fa-eye"></i>
+                View Platform Demo
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Stats Dashboard -->
+      <div class="row" style="margin-bottom: 4rem;">
+        <div class="col-12">
+          <div style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03)); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 3rem; text-align: center;">
+            <div class="row">
+              <div class="col-md-3 col-6 mb-3">
+                <div style="color: white;">
+                  <h3 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; color: #27ae60;">15K+</h3>
+                  <p style="color: rgba(255, 255, 255, 0.8); font-size: 1rem; margin: 0;">Happy Players</p>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-3">
+                <div style="color: white;">
+                  <h3 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; color: #3498db;">98%</h3>
+                  <p style="color: rgba(255, 255, 255, 0.8); font-size: 1rem; margin: 0;">Satisfaction Rate</p>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-3">
+                <div style="color: white;">
+                  <h3 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; color: #f39c12;">$2.5M+</h3>
+                  <p style="color: rgba(255, 255, 255, 0.8); font-size: 1rem; margin: 0;">Tokens Earned</p>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-3">
+                <div style="color: white;">
+                  <h3 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; color: #9b59b6;">24/7</h3>
+                  <p style="color: rgba(255, 255, 255, 0.8); font-size: 1rem; margin: 0;">Active Servers</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Community & Social Section -->
+      <div class="row">
+        <div class="col-12">
+          <div style="background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1)); backdrop-filter: blur(20px); border: 1px solid rgba(52, 152, 219, 0.2); border-radius: 25px; padding: 3rem; text-align: center; position: relative; overflow: hidden;">
+            <!-- Background Effects -->
+            <div style="position: absolute; top: -100px; left: -100px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(52, 152, 219, 0.1) 0%, transparent 70%); animation: floatUp 12s ease-in-out infinite; z-index: 1;"></div>
+            <div style="position: absolute; bottom: -100px; right: -100px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(155, 89, 182, 0.1) 0%, transparent 70%); animation: floatUp 10s ease-in-out infinite reverse; z-index: 1;"></div>
+            
+            <div style="position: relative; z-index: 2;">
+              <h3 style="color: white; font-weight: 800; font-size: 2.2rem; margin-bottom: 1.5rem;">
+                <i class="fas fa-users" style="color: #3498db; margin-right: 15px;"></i>
+                Join Our Growing Community
+              </h3>
+              
+              <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.2rem; max-width: 700px; margin: 0 auto 3rem auto; line-height: 1.6;">
+                Connect with thousands of Minecraft traders, developers, and enthusiasts. Get the latest updates, trading tips, and exclusive opportunities.
+              </p>
+
+              <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-bottom: 3rem;">
+                <a href="#" style="background: linear-gradient(45deg, #3498db, #5dade2); color: white; padding: 15px 30px; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3); display: inline-flex; align-items: center; gap: 10px;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 12px 30px rgba(52, 152, 219, 0.5)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(52, 152, 219, 0.3)'">
+                  <i class="fab fa-linkedin"></i>
+                  LinkedIn Community
+                </a>
+                
+                <a href="#" style="background: linear-gradient(45deg, #7289da, #99aab5); color: white; padding: 15px 30px; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(114, 137, 218, 0.3); display: inline-flex; align-items: center; gap: 10px;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 12px 30px rgba(114, 137, 218, 0.5)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(114, 137, 218, 0.3)'">
+                  <i class="fab fa-discord"></i>
+                  Discord Server
+                </a>
+                
+                <a href="#contact" style="background: linear-gradient(45deg, #27ae60, #2ecc71); color: white; padding: 15px 30px; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3); display: inline-flex; align-items: center; gap: 10px;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 12px 30px rgba(39, 174, 96, 0.5)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(39, 174, 96, 0.3)'">
+                  <i class="fas fa-envelope"></i>
+                  Contact Support
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Features Section -->
+  <section id="corefeatures" class="tm-section-pad-top">
+    <div class="container" style="position: relative; z-index: 2;">
+      <!-- Revolutionary Features Section -->
+      <div class="row" style="margin-top: 4rem; max-width: 1200px; margin-left: auto; margin-right: auto; padding: 0 2rem;">
+        <div class="col-12">
+          <!-- Clean Section Header -->
+          <div style="text-align: center; margin-bottom: 4rem;">
+            <h2 style="font-size: 3rem; font-weight: 800; color: white; margin-bottom: 2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+              Core Features
+            </h2>
+            <p style="font-size: 1.2rem; color: rgba(255, 255, 255, 0.8); max-width: 600px; margin: 0 auto;">
+              Discover what makes EVERMORE the premier choice for Minecraft trading
+            </p>
+          </div>
+
+          <!-- Simple 3-Card Layout -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+            
+            <!-- AI Trading Card -->
+            <div style="background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(39, 174, 96, 0.05)); backdrop-filter: blur(20px); border: 1px solid rgba(39, 174, 96, 0.2); border-radius: 20px; padding: 2rem; transition: all 0.3s ease; text-align: center;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(39, 174, 96, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(39, 174, 96, 0.2)'">
+              
+              <div style="background: linear-gradient(45deg, #27ae60, #2ecc71); width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; box-shadow: 0 10px 25px rgba(39, 174, 96, 0.4);">
+                <i class="fas fa-brain" style="color: white; font-size: 1.5rem;"></i>
+              </div>
+              
+              <h3 style="color: #27ae60; font-weight: 700; font-size: 1.3rem; margin-bottom: 1rem;">AI-Powered Trading</h3>
+              
+              <p style="color: rgba(255, 255, 255, 0.9); font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                Smart algorithms analyze market patterns and optimize your trading strategies with machine learning.
+              </p>
+              
+              <ul style="list-style: none; padding: 0; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">
+                <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: #27ae60; margin-right: 8px;"></i>Auto-trading algorithms</li>
+                <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: #27ae60; margin-right: 8px;"></i>Market analysis</li>
+                <li><i class="fas fa-check" style="color: #27ae60; margin-right: 8px;"></i>Trading insights</li>
+              </ul>
+            </div>
+
+            <!-- Lightning Speed Card -->
+            <div style="background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(243, 156, 18, 0.05)); backdrop-filter: blur(20px); border: 1px solid rgba(243, 156, 18, 0.2); border-radius: 20px; padding: 2rem; transition: all 0.3s ease; text-align: center;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(243, 156, 18, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(243, 156, 18, 0.2)'">
+              
+              <div style="background: linear-gradient(45deg, #f39c12, #e67e22); width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; box-shadow: 0 10px 25px rgba(243, 156, 18, 0.4);">
+                <i class="fas fa-bolt" style="color: white; font-size: 1.5rem;"></i>
+              </div>
+              
+              <h3 style="color: #f39c12; font-weight: 700; font-size: 1.3rem; margin-bottom: 1rem;">Lightning Fast</h3>
+              
+              <p style="color: rgba(255, 255, 255, 0.9); font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                Experience instant transactions with our advanced network. Process trades in under 3 seconds with minimal fees.
+              </p>
+              
+              <ul style="list-style: none; padding: 0; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">
+                <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: #f39c12; margin-right: 8px;"></i>Sub-second speeds</li>
+                <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: #f39c12; margin-right: 8px;"></i>Low transaction fees</li>
+                <li><i class="fas fa-check" style="color: #f39c12; margin-right: 8px;"></i>Instant confirmations</li>
+              </ul>
+            </div>
+
+            <!-- Global Community Card -->
+            <div style="background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), rgba(155, 89, 182, 0.05)); backdrop-filter: blur(20px); border: 1px solid rgba(155, 89, 182, 0.2); border-radius: 20px; padding: 2rem; transition: all 0.3s ease; text-align: center;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(155, 89, 182, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(155, 89, 182, 0.2)'">
+              
+              <div style="background: linear-gradient(45deg, #9b59b6, #8e44ad); width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; box-shadow: 0 10px 25px rgba(155, 89, 182, 0.4);">
+                <i class="fas fa-users" style="color: white; font-size: 1.5rem;"></i>
+              </div>
+              
+              <h3 style="color: #9b59b6; font-weight: 700; font-size: 1.3rem; margin-bottom: 1rem;">Global Community</h3>
+              
+              <p style="color: rgba(255, 255, 255, 0.9); font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                Join 50,000+ active traders and creators worldwide. Connect, share strategies, and build the future together.
+              </p>
+              
+              <ul style="list-style: none; padding: 0; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">
+                <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: #9b59b6; margin-right: 8px;"></i>50K+ members</li>
+                <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: #9b59b6; margin-right: 8px;"></i>Daily events</li>
+                <li><i class="fas fa-check" style="color: #9b59b6; margin-right: 8px;"></i>Community governance</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Simple CTA Section -->
+          <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04)); backdrop-filter: blur(15px); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);">
+            <h3 style="color: white; font-weight: 600; font-size: 1.4rem; margin-bottom: 1rem;">Ready to Start Trading?</h3>
+            <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 2rem;">Join thousands of players already earning with EVERMORE</p>
+            
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+              <a href="#contact" style="background: linear-gradient(45deg, #27ae60, #2ecc71); color: white; padding: 12px 24px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <i class="fas fa-rocket"></i> Get Started
+              </a>
+              <a href="#testimonials" style="background: transparent; color: white; padding: 12px 24px; border-radius: 25px; text-decoration: none; font-weight: 600; border: 2px solid rgba(255, 255, 255, 0.3); transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;" onmouseover="this.style.borderColor='rgba(255, 255, 255, 0.6)'" onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.3)'">
+                <i class="fas fa-star"></i> Read Reviews
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose EVERMORE Section -->
+  <section id="whychoose" class="tm-section-pad-top">
+    <div class="container" style="position: relative; z-index: 2;">
+      <!-- Why EVERMORE Section -->
+      <div class="row" style="margin-top: 6rem; max-width: 1400px; margin-left: auto; margin-right: auto; padding: 0 2rem;">
+        <div class="col-lg-12 col-xl-12">
+          <div class="tm-intro-text-container">
+            <!-- Section Header -->
+            <div style="text-align: center; margin-bottom: 4rem;">
+              <h2 class="tm-text-primary tm-section-title" style="font-size: 3.2rem; font-weight: 900; background: linear-gradient(45deg, #27ae60, #3498db, #f39c12); background-size: 300% 300%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: gradientShift 4s ease-in-out infinite; text-shadow: none; margin-bottom: 1.5rem; letter-spacing: -0.02em; text-align: center;">
+                <strong>Why Choose EVERMORE?</strong>
+              </h2>
+              <div style="width: 120px; height: 4px; background: linear-gradient(45deg, #27ae60, #3498db, #f39c12); border-radius: 2px; animation: gradientShift 4s ease-in-out infinite; margin: 0 auto;"></div>
+            </div>
+
+            <!-- Enhanced Advantages Container -->
+            <div class="evermore-advantages-container" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04)); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 30px; padding: 3rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); position: relative; overflow: hidden;">
+              
+              <!-- Background Animation -->
+              <div style="position: absolute; top: -100px; left: -100px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(39, 174, 96, 0.1) 0%, transparent 70%); animation: floatUp 12s ease-in-out infinite; z-index: 1;"></div>
+              <div style="position: absolute; bottom: -100px; right: -100px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(155, 89, 182, 0.1) 0%, transparent 70%); animation: floatUp 10s ease-in-out infinite reverse; z-index: 1;"></div>
+              
+              <div style="position: relative; z-index: 2;">
+                <!-- Intro Text -->
+                <p class="mb-4 tm-intro-text" style="font-size: 1.2rem; font-weight: 500; text-align: center; color: rgba(255, 255, 255, 0.9); margin-bottom: 3rem; letter-spacing: 0.02em; line-height: 1.7;">
+                  EVERMORE isn't just another cryptocurrency - it's a revolutionary ecosystem built specifically for the Minecraft community with cutting-edge features that make it the premier choice for traders worldwide:
+                </p>
+                
+                <!-- Enhanced Advantages Grid -->
+                <div class="advantages-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                  
+                  <!-- Seamless Integration -->
+                  <div class="advantage-item" style="background: linear-gradient(135deg, rgba(39, 174, 96, 0.15), rgba(46, 204, 113, 0.08)); backdrop-filter: blur(20px); border: 1px solid rgba(39, 174, 96, 0.2); border-radius: 25px; padding: 2.5rem; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08); transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-10px) scale(1.02)'; this.style.boxShadow='0 25px 60px rgba(39, 174, 96, 0.15)'; this.style.borderColor='rgba(39, 174, 96, 0.4)'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 15px 40px rgba(0, 0, 0, 0.08)'; this.style.borderColor='rgba(39, 174, 96, 0.2)'">
+                    
+                    <!-- Background Effect -->
+                    <div style="position: absolute; top: -30px; right: -30px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(39, 174, 96, 0.2) 0%, transparent 70%); border-radius: 50%; animation: floatUp 8s ease-in-out infinite; z-index: 1;"></div>
+                    
+                    <div style="position: relative; z-index: 2;">
+                      <!-- Enhanced Icon Header -->
+                      <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                        <div style="background: linear-gradient(45deg, #27ae60, #2ecc71); width: 70px; height: 70px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-right: 1.5rem; box-shadow: 0 10px 25px rgba(39, 174, 96, 0.4); position: relative; overflow: hidden;">
+                          <div style="position: absolute; inset: 0; background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%); animation: shimmer 3s ease-in-out infinite;"></div>
+                          <i class="fas fa-plug" style="color: white; font-size: 1.8rem; position: relative; z-index: 2;"></i>
+                        </div>
+                        <div>
+                          <h4 style="color: #27ae60; font-weight: 800; font-size: 1.4rem; margin: 0 0 5px 0;">Seamless Integration</h4>
+                          <div style="color: rgba(39, 174, 96, 0.8); font-size: 1rem; font-weight: 600;">Universal Compatibility</div>
+                        </div>
+                      </div>
+                      
+                      <!-- Enhanced Description -->
+                      <p style="color: rgba(255, 255, 255, 0.95); font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                        Effortlessly integrate with <strong style="color: #27ae60;">500+ Minecraft servers</strong> and platforms. Our universal API works with popular mods, plugins, and server management tools without any complex setup.
+                      </p>
+                      
+                      <!-- Feature Points -->
+                      <div>
+                        <div style="display: flex; align-items: center; margin-bottom: 8px; color: rgba(255, 255, 255, 0.9); font-size: 1rem;">
+                          <div style="background: rgba(52, 152, 219, 0.2); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <i class="fas fa-server" style="color: #3498db; font-size: 0.8rem;"></i>
+                          </div>
+                          Multi-server compatibility
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 8px; color: rgba(255, 255, 255, 0.9); font-size: 1rem;">
+                          <div style="background: rgba(52, 152, 219, 0.2); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <i class="fas fa-code" style="color: #3498db; font-size: 0.8rem;"></i>
+                          </div>
+                          One-click API integration
+                        </div>
+                        <div style="display: flex; align-items: center; color: rgba(255, 255, 255, 0.9); font-size: 1rem;">
+                          <div style="background: rgba(52, 152, 219, 0.2); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <i class="fas fa-puzzle-piece" style="color: #3498db; font-size: 0.8rem;"></i>
+                          </div>
+                          Plugin ecosystem support
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Enhanced Security -->
+                  <div class="advantage-item" style="background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(155, 89, 182, 0.08)); backdrop-filter: blur(20px); border: 1px solid rgba(52, 152, 219, 0.2); border-radius: 25px; padding: 2.5rem; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08); transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-10px) scale(1.02)'; this.style.boxShadow='0 25px 60px rgba(52, 152, 219, 0.15)'; this.style.borderColor='rgba(52, 152, 219, 0.4)'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 15px 40px rgba(0, 0, 0, 0.08)'; this.style.borderColor='rgba(52, 152, 219, 0.2)'">
+                    
+                    <!-- Background Effect -->
+                    <div style="position: absolute; bottom: -30px; left: -30px; width: 80px; height: 80px; background: radial-gradient(circle, rgba(52, 152, 219, 0.2) 0%, transparent 70%); border-radius: 50%; animation: floatUp 6s ease-in-out infinite reverse; z-index: 1;"></div>
+                    
+                    <div style="position: relative; z-index: 2;">
+                      <!-- Enhanced Icon Header -->
+                      <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                        <div style="background: linear-gradient(45deg, #3498db, #5dade2); width: 70px; height: 70px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-right: 1.5rem; box-shadow: 0 10px 25px rgba(52, 152, 219, 0.4); position: relative; overflow: hidden;">
+                          <div style="position: absolute; inset: 0; background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%); animation: shimmer 3s ease-in-out infinite;"></div>
+                          <i class="fas fa-shield-alt" style="color: white; font-size: 1.8rem; position: relative; z-index: 2;"></i>
+                        </div>
+                        <div>
+                          <h4 style="color: #3498db; font-weight: 800; font-size: 1.4rem; margin: 0 0 5px 0;">Enhanced Security</h4>
+                          <div style="color: rgba(52, 152, 219, 0.8); font-size: 1rem; font-weight: 600;">Bank-Grade Protection</div>
+                        </div>
+                      </div>
+                      
+                      <!-- Enhanced Description -->
+                      <p style="color: rgba(255, 255, 255, 0.95); font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                        Advanced security features protect your transactions and digital assets with <strong style="color: #3498db;">military-grade encryption</strong> and multi-layer authentication systems trusted by financial institutions.
+                      </p>
+                      
+                      <!-- Feature Points -->
+                      <div>
+                        <div style="display: flex; align-items: center; margin-bottom: 8px; color: rgba(255, 255, 255, 0.9); font-size: 1rem;">
+                          <div style="background: rgba(243, 156, 18, 0.2); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <i class="fas fa-lock" style="color: #f39c12; font-size: 0.8rem;"></i>
+                          </div>
+                          256-bit AES encryption
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 8px; color: rgba(255, 255, 255, 0.9); font-size: 1rem;">
+                          <div style="background: rgba(243, 156, 18, 0.2); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <i class="fas fa-key" style="color: #f39c12; font-size: 0.8rem;"></i>
+                          </div>
+                          Multi-signature wallets
+                        </div>
+                        <div style="display: flex; align-items: center; color: rgba(255, 255, 255, 0.9); font-size: 1rem;">
+                          <div style="background: rgba(243, 156, 18, 0.2); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <i class="fas fa-user-shield" style="color: #f39c12; font-size: 0.8rem;"></i>
+                          </div>
+                          Biometric authentication
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Community Driven -->
+                  <div class="advantage-item" style="background: linear-gradient(135deg, rgba(243, 156, 18, 0.15), rgba(230, 126, 34, 0.08)); backdrop-filter: blur(20px); border: 1px solid rgba(243, 156, 18, 0.2); border-radius: 25px; padding: 2.5rem; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08); transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-10px) scale(1.02)'; this.style.boxShadow='0 25px 60px rgba(243, 156, 18, 0.15)'; this.style.borderColor='rgba(243, 156, 18, 0.4)'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 15px 40px rgba(0, 0, 0, 0.08)'; this.style.borderColor='rgba(243, 156, 18, 0.2)'">
+                    
+                    <!-- Background Effect -->
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100px; height: 100px; background: radial-gradient(circle, rgba(243, 156, 18, 0.15) 0%, transparent 70%); border-radius: 50%; animation: floatUp 10s ease-in-out infinite; z-index: 1;"></div>
+                    
+                    <div style="position: relative; z-index: 2;">
+                      <!-- Enhanced Icon Header -->
+                      <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                        <div style="background: linear-gradient(45deg, #f39c12, #e67e22); width: 70px; height: 70px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-right: 1.5rem; box-shadow: 0 10px 25px rgba(243, 156, 18, 0.4); position: relative; overflow: hidden;">
+                          <div style="position: absolute; inset: 0; background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%); animation: shimmer 3s ease-in-out infinite;"></div>
+                          <i class="fas fa-users" style="color: white; font-size: 1.8rem; position: relative; z-index: 2;"></i>
+                        </div>
+                        <div>
+                          <h4 style="color: #f39c12; font-weight: 800; font-size: 1.4rem; margin: 0 0 5px 0;">Community Driven</h4>
+                          <div style="color: rgba(243, 156, 18, 0.8); font-size: 1rem; font-weight: 600; text-align: center;">50K+ Active Members</div>
+                        </div>
+                      </div>
+                      
+                      <!-- Enhanced Description -->
+                      <p style="color: rgba(255, 255, 255, 0.95); font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                        Developed by and for the Minecraft community with <strong style="color: #f39c12;">continuous feedback</strong> from 50,000+ active members. Shape the future through democratic governance and community proposals.
+                      </p>
+                      
+                      <!-- Feature Points -->
+                      <div>
+                        <div style="display: flex; align-items: center; margin-bottom: 8px; color: rgba(255, 255, 255, 0.9); font-size: 1rem;">
+                          <div style="background: rgba(231, 76, 60, 0.2); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <i class="fas fa-vote-yea" style="color: #e74c3c; font-size: 0.8rem;"></i>
+                          </div>
+                          Community governance voting
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 8px; color: rgba(255, 255, 255, 0.9); font-size: 1rem;">
+                          <div style="background: rgba(231, 76, 60, 0.2); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <i class="fas fa-lightbulb" style="color: #e74c3c; font-size: 0.8rem;"></i>
+                          </div>
+                          Feature request system
+                        </div>
+                        <div style="display: flex; align-items: center; color: rgba(255, 255, 255, 0.9); font-size: 1rem;">
+                          <div style="background: rgba(231, 76, 60, 0.2); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                            <i class="fas fa-trophy" style="color: #e74c3c; font-size: 0.8rem;"></i>
+                          </div>
+                          Monthly community rewards
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Call to Action -->
+                <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                  <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.1rem; margin-bottom: 2rem; font-weight: 500;">
+                    Ready to experience the future of Minecraft trading?
+                  </p>
+                  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;">
+                    <a href="#contact" style="background: linear-gradient(135deg, rgba(39, 174, 96, 0.15), rgba(46, 204, 113, 0.08)); backdrop-filter: blur(20px); border: 1px solid rgba(39, 174, 96, 0.2); color: white; padding: 16px 32px; border-radius: 20px; text-decoration: none; font-weight: 700; font-size: 1.1rem; transition: all 0.4s ease; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08); display: inline-flex; align-items: center; gap: 12px; position: relative; overflow: hidden;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 25px 60px rgba(39, 174, 96, 0.15)'; this.style.borderColor='rgba(39, 174, 96, 0.4)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 15px 40px rgba(0, 0, 0, 0.08)'; this.style.borderColor='rgba(39, 174, 96, 0.2)'">
+                      <i class="fas fa-rocket"></i>
+                      Start Trading Now
+                    </a>
+                    <a href="#testimonials" style="background: linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(155, 89, 182, 0.08)); backdrop-filter: blur(20px); border: 1px solid rgba(52, 152, 219, 0.2); color: white; padding: 16px 32px; border-radius: 20px; text-decoration: none; font-weight: 700; font-size: 1.1rem; transition: all 0.4s ease; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08); display: inline-flex; align-items: center; gap: 12px; position: relative; overflow: hidden;" onmouseover="this.style.background='linear-gradient(135deg, rgba(52, 152, 219, 0.25), rgba(155, 89, 182, 0.15))'; this.style.transform='scale(1.05)'; this.style.borderColor='rgba(52, 152, 219, 0.4)'" onmouseout="this.style.background='linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(155, 89, 182, 0.08))'; this.style.transform='scale(1)'; this.style.borderColor='rgba(52, 152, 219, 0.2)'">
+                      <i class="fas fa-star"></i>
+                      Read Reviews
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="tm-section-pad-top">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h2 style="font-size: 3.5rem; font-weight: 900; background: linear-gradient(45deg, #27ae60, #3498db, #f39c12); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradientShift 3s ease-in-out infinite; margin-bottom: 1rem;">
+            <strong>What Our Community Says</strong>
+          </h2>
+          <div style="width: 100px; height: 4px; background: linear-gradient(45deg, #27ae60, #3498db, #f39c12); margin: 0 auto 2rem auto; border-radius: 2px; animation: gradientShift 3s ease-in-out infinite;"></div>
+          <div class="text-center mb-5">
+            <p style="font-size: 1.3rem; color: rgba(255, 255, 255, 0.9); max-width: 700px; margin: 0 auto; line-height: 1.6; font-weight: 300;">
+              Real stories from players who are earning, trading, and building their future with EVERMORE
+            </p>
+          </div>
+          <!-- Modern Testimonials Grid -->
+          <div class="row" style="margin-bottom: 3rem;">
+            <!-- Testimonial 1 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04)); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 25px; padding: 2.5rem; height: 100%; position: relative; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='rgba(255, 255, 255, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.1)'">
+                <!-- Quote Icon -->
+                <div style="position: absolute; top: 20px; right: 25px; opacity: 0.1;">
+                  <i class="fas fa-quote-right" style="font-size: 3rem; color: white;"></i>
+                </div>
+                <!-- Profile Section -->
+                <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                  <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08)); display: flex; align-items: center; justify-content: center; margin-right: 1rem; border: 2px solid rgba(255, 255, 255, 0.2);">
+                    <i class="fas fa-user" style="color: rgba(255, 255, 255, 0.8); font-size: 1.5rem;"></i>
+                  </div>
+                  <div>
+                    <h4 style="color: white; font-weight: 700; font-size: 1.1rem; margin: 0;">Jake M.</h4>
+                    <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin: 0;">Minecraft Builder</p>
+                  </div>
+                </div>
+                <!-- Testimonial Text -->
+                <p style="color: rgba(255, 255, 255, 0.9); font-size: 1rem; line-height: 1.7; margin-bottom: 1.5rem; font-style: italic;">
+                  "Minecraft Crypto has completely changed how I play! Earning tokens while building epic structures is awesome. The marketplace is super easy to use—I traded my in-game loot for real crypto in just a few clicks."
+                </p>
+                <!-- Rating -->
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="display: flex; gap: 2px;">
+                    <i class="fas fa-star" style="color: #f39c12; font-size: 1rem;"></i>
+                    <i class="fas fa-star" style="color: #f39c12; font-size: 1rem;"></i>
+                    <i class="fas fa-star" style="color: #f39c12; font-size: 1rem;"></i>
+                    <i class="fas fa-star" style="color: #f39c12; font-size: 1rem;"></i>
+                    <i class="fas fa-star" style="color: #f39c12; font-size: 1rem;"></i>
+                  </div>
+                  <span style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">Verified Player</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04)); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 25px; padding: 2.5rem; height: 100%; position: relative; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='rgba(255, 255, 255, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.1)'">
+                <!-- Quote Icon -->
+                <div style="position: absolute; top: 20px; right: 25px; opacity: 0.1;">
+                  <i class="fas fa-quote-right" style="font-size: 3rem; color: white;"></i>
+                </div>
+                <!-- Profile Section -->
+                <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                  <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08)); display: flex; align-items: center; justify-content: center; margin-right: 1rem; border: 2px solid rgba(255, 255, 255, 0.2);">
+                    <i class="fas fa-video" style="color: rgba(255, 255, 255, 0.8); font-size: 1.5rem;"></i>
+                  </div>
+                  <div>
+                    <h4 style="color: white; font-weight: 700; font-size: 1.1rem; margin: 0;">Alex T.</h4>
+                    <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin: 0;">Content Creator</p>
+                  </div>
+                </div>
+                <!-- Testimonial Text -->
+                <p style="color: rgba(255, 255, 255, 0.9); font-size: 1rem; line-height: 1.7; margin-bottom: 1.5rem; font-style: italic;">
+                  "As a Minecraft streamer, this is a game-changer. The play-to-earn system keeps my audience engaged, and the blockchain integration is seamless. My viewers love watching me climb the leaderboards!"
+                </p>
+                <!-- Rating -->
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="display: flex; gap: 2px;">
+                    <i class="fas fa-star" style="color: #f39c12; font-size: 1rem;"></i>
+                    <i class="fas fa-star" style="color: #f39c12; font-size: 1rem;"></i>
+                    <i class="fas fa-star" style="color: #f39c12; font-size: 1rem;"></i>
+                    <i class="fas fa-star" style="color: #f39c12; font-size: 1rem;"></i>
+                    <i class="fas fa-star" style="color: #f39c12; font-size: 1rem;"></i>
+                  </div>
+                  <span style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">Top Streamer</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04)); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 25px; padding: 2.5rem; height: 100%; position: relative; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);" onmouseover="this.style.transform='translateY(-8px)'; this.style.borderColor='rgba(255, 255, 255, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255, 255, 255, 0.1)'">
+                <!-- Quote Icon -->
+                <div style="position: absolute; top: 20px; right: 25px; opacity: 0.1;">
+                  <i class="fas fa-quote-right" style="font-size: 3rem; color: white;"></i>
+                </div>
+                <!-- Profile Section -->
+                <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                  <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08)); display: flex; align-items: center; justify-content: center; margin-right: 1rem; border: 2px solid rgba(255, 255, 255, 0.2);">
+                    <i class="fas fa-heart" style="color: rgba(255, 255, 255, 0.8); font-size: 1.5rem;"></i>
+                  </div>
+                  <div>
+                    <h4 style="color: white; font-weight: 700; font-size: 1.1rem; margin: 0;">Lisa R.</h4>
+                    <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin: 0;">Parent & Educator</p>
+                  </div>
+                </div>
+                <!-- Testimonial Text -->
+                <p style="color: rgba(255, 255, 255, 0.9); font-size: 1rem; line-height: 1.7; margin-bottom: 1.5rem; font-style: italic;">
+                  "My son loves Minecraft, and this has been a fantastic way for him to learn about cryptocurrency while having fun. The server's safe and moderated, and he's thrilled to earn tokens with real value!"
+                </p>
+                <!-- Rating -->
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <div style="display: flex; gap: 2px;">
+                    <i class="fas fa-star" style="color: #f39c12; font-size: 1rem;"></i>
+                    <i class="fas fa-star" style="color: #f39c12; font-size: 1rem;"></i>
+                    <i class="fas fa-star" style="color: #f39c12; font-size: 1rem;"></i>
+                    <i class="fas fa-star" style="color: #f39c12; font-size: 1rem;"></i>
+                    <i class="fas fa-star" style="color: #f39c12; font-size: 1rem;"></i>
+                  </div>
+                  <span style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">Trusted Parent</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      <!-- Stats Section -->
+      <div class="row" style="margin-bottom: 3rem;">
+        <div class="col-12">
+          <div style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03)); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 3rem; text-align: center;">
+            <div class="row">
+              <div class="col-md-3 col-6 mb-3">
+                <div style="color: white;">
+                  <h3 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; color: #27ae60;">15K+</h3>
+                  <p style="color: rgba(255, 255, 255, 0.8); font-size: 1rem; margin: 0;">Happy Players</p>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-3">
+                <div style="color: white;">
+                  <h3 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; color: #3498db;">98%</h3>
+                  <p style="color: rgba(255, 255, 255, 0.8); font-size: 1rem; margin: 0;">Satisfaction Rate</p>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-3">
+                <div style="color: white;">
+                  <h3 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; color: #f39c12;">$2.5M+</h3>
+                  <p style="color: rgba(255, 255, 255, 0.8); font-size: 1rem; margin: 0;">Tokens Earned</p>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-3">
+                <div style="color: white;">
+                  <h3 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; color: #9b59b6;">24/7</h3>
+                  <p style="color: rgba(255, 255, 255, 0.8); font-size: 1rem; margin: 0;">Active Servers</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Community & Social Section -->
+      <div class="row">
+        <div class="col-12">
+          <div style="background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1)); backdrop-filter: blur(20px); border: 1px solid rgba(52, 152, 219, 0.2); border-radius: 25px; padding: 3rem; text-align: center; position: relative; overflow: hidden;">
+            <!-- Background Effects -->
+            <div style="position: absolute; top: -100px; left: -100px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(52, 152, 219, 0.1) 0%, transparent 70%); animation: floatUp 12s ease-in-out infinite; z-index: 1;"></div>
+            <div style="position: absolute; bottom: -100px; right: -100px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(155, 89, 182, 0.1) 0%, transparent 70%); animation: floatUp 10s ease-in-out infinite reverse; z-index: 1;"></div>
+            
+            <div style="position: relative; z-index: 2;">
+              <h3 style="color: white; font-weight: 800; font-size: 2.2rem; margin-bottom: 1.5rem;">
+                <i class="fas fa-users" style="color: #3498db; margin-right: 15px;"></i>
+                Join Our Growing Community
+              </h3>
+              
+              <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.2rem; max-width: 700px; margin: 0 auto 3rem auto; line-height: 1.6;">
+                Connect with thousands of Minecraft traders, developers, and enthusiasts. Get the latest updates, trading tips, and exclusive opportunities.
+              </p>
+
+              <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-bottom: 3rem;">
+                <a href="#" style="background: linear-gradient(45deg, #3498db, #5dade2); color: white; padding: 15px 30px; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3); display: inline-flex; align-items: center; gap: 10px;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 12px 30px rgba(52, 152, 219, 0.5)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(52, 152, 219, 0.3)'">
+                  <i class="fab fa-linkedin"></i>
+                  LinkedIn Community
+                </a>
+                
+                <a href="#" style="background: linear-gradient(45deg, #7289da, #99aab5); color: white; padding: 15px 30px; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(114, 137, 218, 0.3); display: inline-flex; align-items: center; gap: 10px;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 12px 30px rgba(114, 137, 218, 0.5)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(114, 137, 218, 0.3)'">
+                  <i class="fab fa-discord"></i>
+                  Discord Server
+                </a>
+                
+                <a href="#contact" style="background: linear-gradient(45deg, #27ae60, #2ecc71); color: white; padding: 15px 30px; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3); display: inline-flex; align-items: center; gap: 10px;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 12px 30px rgba(39, 174, 96, 0.5)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(39, 174, 96, 0.3)'">
+                  <i class="fas fa-envelope"></i>
+                  Contact Support
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Features Section -->
+  <section id="corefeatures" class="tm-section-pad-top">
+    <div class="container" style="position: relative; z-index: 2;">
+      <!-- Revolutionary Features Section -->
+      <div class="row" style="margin-top: 4rem; max-width: 1200px; margin-left: auto; margin-right: auto; padding: 0 2rem;">
+        <div class="col-12">
+          <!-- Clean Section Header -->
+          <div style="text-align: center; margin-bottom: 4rem;">
+            <h2 style="font-size: 3rem; font-weight: 800; color: white; margin-bottom: 2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+              Core Features
+            </h2>
+            <p style="font-size: 1.2rem; color: rgba(255, 255, 255, 0.8); max-width: 600px; margin: 0 auto;">
+              Discover what makes EVERMORE the premier choice for Minecraft trading
+            </p>
+          </div>
+
+          <!-- Simple 3-Card Layout -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+            
+            <!-- AI Trading Card -->
+            <div style="background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(39, 174, 96, 0.05)); backdrop-filter: blur(20px); border: 1px solid rgba(39, 174, 96, 0.2); border-radius: 20px; padding: 2rem; transition: all 0.3s ease; text-align: center;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(39, 174, 96, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(39, 174, 96, 0.2)'">
+              
+              <div style="background: linear-gradient(45deg, #27ae60, #2ecc71); width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; box-shadow: 0 10px 25px rgba(39, 174, 96, 0.4);">
+                <i class="fas fa-brain" style="color: white; font-size: 1.5rem;"></i>
+              </div>
+              
+              <h3 style="color: #27ae60; font-weight: 700; font-size: 1.3rem; margin-bottom: 1rem;">AI-Powered Trading</h3>
+              
+              <p style="color: rgba(255, 255, 255, 0.9); font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                Smart algorithms analyze market patterns and optimize your trading strategies with machine learning.
+              </p>
+              
+              <ul style="list-style: none; padding: 0; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">
+                <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: #27ae60; margin-right: 8px;"></i>Auto-trading algorithms</li>
+                <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: #27ae60; margin-right: 8px;"></i>Market analysis</li>
+                <li><i class="fas fa-check" style="color: #27ae60; margin-right: 8px;"></i>Trading insights</li>
+              </ul>
+            </div>
+
+            <!-- Lightning Speed Card -->
+            <div style="background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(243, 156, 18, 0.05)); backdrop-filter: blur(20px); border: 1px solid rgba(243, 156, 18, 0.2); border-radius: 20px; padding: 2rem; transition: all 0.3s ease; text-align: center;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(243, 156, 18, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(243, 156, 18, 0.2)'">
+              
+              <div style="background: linear-gradient(45deg, #f39c12, #e67e22); width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; box-shadow: 0 10px 25px rgba(243, 156, 18, 0.4);">
+                <i class="fas fa-bolt" style="color: white; font-size: 1.5rem;"></i>
+              </div>
+              
+              <h3 style="color: #f39c12; font-weight: 700; font-size: 1.3rem; margin-bottom: 1rem;">Lightning Fast</h3>
+              
+              <p style="color: rgba(255, 255, 255, 0.9); font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                Experience instant transactions with our advanced network. Process trades in under 3 seconds with minimal fees.
+              </p>
+              
+              <ul style="list-style: none; padding: 0; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">
+                <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: #f39c12; margin-right: 8px;"></i>Sub-second speeds</li>
+                <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: #f39c12; margin-right: 8px;"></i>Low transaction fees</li>
+                <li><i class="fas fa-check" style="color: #f39c12; margin-right: 8px;"></i>Instant confirmations</li>
+              </ul>
+            </div>
+
+            <!-- Global Community Card -->
+            <div style="background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), rgba(155, 89, 182, 0.05)); backdrop-filter: blur(20px); border: 1px solid rgba(155, 89, 182, 0.2); border-radius: 20px; padding: 2rem; transition: all 0.3s ease; text-align: center;" onmouseover="this.style.transform='translateY(-5px)'; this.style.borderColor='rgba(155, 89, 182, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(155, 89, 182, 0.2)'">
+              
+              <div style="background: linear-gradient(45deg, #9b59b6, #8e44ad); width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; box-shadow: 0 10px 25px rgba(155, 89, 182, 0.4);">
+                <i class="fas fa-users" style="color: white; font-size: 1.5rem;"></i>
+              </div>
+              
+              <h3 style="color: #9b59b6; font-weight: 700; font-size: 1.3rem; margin-bottom: 1rem;">Global Community</h3>
+              
+              <p style="color: rgba(255, 255, 255, 0.9); font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+                Join 50,000+ active traders and creators worldwide. Connect, share strategies, and build the future together.
+              </p>
+              
+              <ul style="list-style: none; padding: 0; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">
+                <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: #9b59b6; margin-right: 8px;"></i>50K+ members</li>
+                <li style="margin-bottom: 8px;"><i class="fas fa-check" style="color: #9b59b6; margin-right: 8px;"></i>Daily events</li>
+                <li><i class="fas fa-check" style="color: #9b59b6; margin-right: 8px;"></i>Community governance</li>
+              </ul>
+            </div>
+          </div>
     }
 
     .login-form-control::placeholder {
@@ -3277,7 +3579,7 @@
     <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)); z-index: 1;"></div>
     
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-md tm-navbar" id="tmNav" style="position: relative; z-index: 10;">
+    <nav class="navbar navbar-expand-lg tm-navbar" id="tmNav" style="position: relative; z-index: 10;">
       <style>
         icon{
           background-image: url('img/icon.png');
@@ -3302,49 +3604,80 @@
           <i class="fas fa-bars navbar-toggler-icon"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link tm-nav-link" href="#minecraft-crypto">
-                <i class="fas fa-home"></i>
-                <span class="nav-text">Home</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link tm-nav-link" href="#whatwedo">
-                <i class="fas fa-info-circle"></i>
-                <span class="nav-text">What We Do</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link tm-nav-link" href="#testimonials">
-                <i class="fas fa-star"></i>
-                <span class="nav-text">Testimonials</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link tm-nav-link" href="#gallery">
-                <i class="fas fa-images"></i>
-                <span class="nav-text">Gallery</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link tm-nav-link" href="#contact">
-                <i class="fas fa-envelope"></i>
-                <span class="nav-text">Contact Us</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link tm-nav-link" href="#" onclick="openSignupModal()">
-                <i class="fas fa-user-plus"></i>
-                <span class="nav-text">Sign Up</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link tm-nav-link" href="#" onclick="openLoginModal()">
-                <i class="fas fa-sign-in-alt"></i>
-                <span class="nav-text">Login</span>
-              </a>
-            </li>
+          <ul class="navbar-nav ml-auto modern-nav-container">
+            <!-- Main Navigation Section -->
+            <div class="nav-section nav-main-section">
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link nav-item-modern" href="#minecraft-crypto">
+                  <div class="nav-content">
+                    <i class="fas fa-home nav-icon"></i>
+                    <span class="nav-text">Home</span>
+                  </div>
+                  <div class="nav-underline"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link nav-item-modern" href="#whatwedo">
+                  <div class="nav-content">
+                    <i class="fas fa-cogs nav-icon"></i>
+                    <span class="nav-text">Services</span>
+                  </div>
+                  <div class="nav-underline"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link nav-item-modern" href="#testimonials">
+                  <div class="nav-content">
+                    <i class="fas fa-quote-left nav-icon"></i>
+                    <span class="nav-text">Reviews</span>
+                  </div>
+                  <div class="nav-underline"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link nav-item-modern" href="#gallery">
+                  <div class="nav-content">
+                    <i class="fas fa-images nav-icon"></i>
+                    <span class="nav-text">Gallery</span>
+                  </div>
+                  <div class="nav-underline"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link nav-item-modern" href="#contact">
+                  <div class="nav-content">
+                    <i class="fas fa-paper-plane nav-icon"></i>
+                    <span class="nav-text">Contact</span>
+                  </div>
+                  <div class="nav-underline"></div>
+                </a>
+              </li>
+            </div>
+            
+            <!-- Separator -->
+            <div class="nav-separator"></div>
+            
+            <!-- Auth Navigation Section -->
+            <div class="nav-section nav-auth-section">
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link nav-item-auth nav-signup" href="#" onclick="openSignupModal()">
+                  <div class="nav-content">
+                    <i class="fas fa-rocket nav-icon"></i>
+                    <span class="nav-text">Get Started</span>
+                  </div>
+                  <div class="nav-highlight"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link nav-item-auth nav-login" href="#" onclick="openLoginModal()">
+                  <div class="nav-content">
+                    <i class="fas fa-sign-in-alt nav-icon"></i>
+                    <span class="nav-text">Sign In</span>
+                  </div>
+                  <div class="nav-highlight"></div>
+                </a>
+              </li>
+            </div>
           </ul>
         </div>
       </div>
