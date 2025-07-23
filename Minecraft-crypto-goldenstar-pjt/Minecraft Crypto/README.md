@@ -1,4 +1,4 @@
-# Minecraft Crypto Golden Star Project
+# Minecraft Crypto Golden Star Project by Bert Yan version 1
 
 A cryptocurrency-themed website for Minecraft enthusiasts.
 
