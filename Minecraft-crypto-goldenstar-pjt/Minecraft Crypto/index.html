@@ -349,13 +349,32 @@
     }
 
     /* Desktop and tablet - show both icons and text */
-    @media (min-width: 769px) {
+    @media (min-width: 1051px) {
       .tm-nav-link i {
         margin-right: 8px;
       }
       
       .tm-nav-link .nav-text {
         display: inline;
+      }
+    }
+
+    /* Medium screens - show only icons when space is limited */
+    @media (max-width: 1050px) and (min-width: 769px) {
+      .tm-nav-link .nav-text {
+        display: none !important;
+      }
+      
+      .tm-nav-link {
+        padding: 8px 10px !important;
+        margin: 0 2px !important;
+        min-width: 40px !important;
+        justify-content: center !important;
+      }
+      
+      .tm-nav-link i {
+        margin-right: 0 !important;
+        font-size: 1.1rem !important;
       }
     }
 
@@ -374,6 +393,22 @@
         min-width: 40px;
         padding: 8px 12px !important;
         margin: 0 3px !important;
+      }
+    }
+
+    @media (max-width: 1400px) {
+      .tm-nav-link {
+        font-size: 0.95rem !important;
+        padding: 7px 12px !important;
+        margin: 0 3px !important;
+      }
+    }
+
+    @media (max-width: 1200px) {
+      .tm-nav-link {
+        font-size: 0.9rem !important;
+        padding: 6px 10px !important;
+        margin: 0 2px !important;
       }
     }
 
@@ -3023,11 +3058,23 @@
       
       /* Navigation mobile */
       .navbar-nav {
-        background: rgba(26, 35, 50, 0.95) !important;
-        backdrop-filter: blur(15px) !important;
+        background: transparent !important;
+        backdrop-filter: none !important;
         border-radius: 15px !important;
         margin-top: 10px !important;
         padding: 15px !important;
+      }
+      
+      .navbar-collapse {
+        background: transparent !important;
+      }
+      
+      .navbar-collapse.show {
+        background: transparent !important;
+      }
+      
+      .collapse.navbar-collapse {
+        background: transparent !important;
       }
       
       .tm-nav-link {
@@ -3036,6 +3083,14 @@
         text-align: center !important;
         width: 100% !important;
         border-radius: 10px !important;
+        background: transparent !important;
+        border: none !important;
+        backdrop-filter: none !important;
+      }
+      
+      .tm-nav-link:hover {
+        background: transparent !important;
+        backdrop-filter: none !important;
       }
     }
 
@@ -3310,7 +3365,7 @@
           <!-- Simplified Description -->
           <div class="hero-description" style="max-width: 600px; margin: 0 auto 50px auto;">
             <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.2rem; line-height: 1.7; margin-bottom: 0; font-weight: 400;">
-              Trade, earn, and grow with <strong style="color: #27ae60;">EVERMORE</strong> — the revolutionary cryptocurrency built specifically for the Minecraft community.
+              Trade, earn, and grow with <span style="background: linear-gradient(45deg, #2ecc71, #27ae60); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700; font-size: 1.3rem; letter-spacing: 1px; text-shadow: 0 0 15px rgba(39, 174, 96, 0.4);">EVERMORE</span> — the revolutionary cryptocurrency built specifically for the Minecraft community.
             </p>
           </div>
             
