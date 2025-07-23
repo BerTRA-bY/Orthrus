@@ -3,246 +3,673 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EVERMORE - Trading Dashboard</title>
+    <title>EVERMORE - Advanced Trading Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="fontawesome-5.5/css/all.min.css">
     <link rel="stylesheet" href="css/tooplate-infinite-loop.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <style>
-        body {
-            background: linear-gradient(135deg, #1a2332 0%, #2c3e50 50%, #1a2332 100%);
-            min-height: 100vh;
-            font-family: 'Open Sans', sans-serif;
-            color: white;
+        /* Modern Trading Dashboard Variables */
+        :root {
+            --primary-dark: #0d1421;
+            --primary-medium: #1a2332;
+            --primary-light: #2c3e50;
+            --accent-green: #00d4aa;
+            --accent-red: #ff4757;
+            --accent-blue: #3742fa;
+            --accent-gold: #ffa502;
+            --accent-purple: #8e44ad;
+            --text-primary: #ffffff;
+            --text-secondary: #8fa8b2;
+            --text-muted: #5a6c7d;
+            --border-color: #2d3748;
+            --bg-glass: rgba(255, 255, 255, 0.02);
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.25);
         }
-        
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-medium) 50%, var(--primary-dark) 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 212, 170, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(55, 66, 250, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 165, 2, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundFloat {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        /* Dashboard Header */
         .dashboard-header {
-            background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(52, 152, 219, 0.1));
+            background: rgba(13, 20, 33, 0.95);
             backdrop-filter: blur(20px);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--border-color);
             padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: var(--shadow-md);
         }
-        
-        .dashboard-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .dashboard-logo h2 {
-            color: #27ae60;
+
+        .navbar-brand {
+            color: var(--accent-green) !important;
             font-weight: 800;
-            margin: 0;
+            font-size: 1.5rem;
+            text-decoration: none;
         }
-        
+
+        .navbar-brand:hover {
+            color: var(--accent-blue) !important;
+        }
+
         .user-info {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-        
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-green), var(--accent-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
         .btn-logout {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            background: linear-gradient(45deg, var(--accent-red), #e55039);
             border: none;
-            padding: 8px 20px;
-            border-radius: 10px;
+            padding: 8px 16px;
+            border-radius: 8px;
             color: white;
             font-weight: 600;
             transition: all 0.3s ease;
         }
-        
+
         .btn-logout:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
-            color: white;
+            box-shadow: 0 4px 12px rgba(255, 71, 87, 0.4);
         }
-        
-        .dashboard-content {
-            padding: 3rem 0;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 80px;
+            width: 250px;
+            height: calc(100vh - 80px);
+            background: var(--bg-card);
             backdrop-filter: blur(20px);
-            border-radius: 20px;
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 0;
+            z-index: 999;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-menu li {
+            margin: 0.5rem 0;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 0 25px 25px 0;
+            margin-right: 1rem;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: var(--accent-green);
+            color: white;
+            transform: translateX(10px);
+        }
+
+        .sidebar-menu i {
+            margin-right: 1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
             padding: 2rem;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Market Overview */
+        .market-overview {
+            grid-column: 1 / 4;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .market-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-card {
+            background: var(--bg-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-        
+
         .stat-card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -50%;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(39, 174, 96, 0.1) 0%, transparent 70%);
-            animation: floatUp 8s ease-in-out infinite;
-            z-index: 1;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
         }
-        
-        .stat-content {
-            position: relative;
-            z-index: 2;
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
         }
-        
-        .stat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-        
+
         .stat-value {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-label {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1rem;
-            font-weight: 600;
-        }
-        
-        .trading-section {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 3rem;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            margin-bottom: 3rem;
-        }
-        
-        .section-title {
             font-size: 2rem;
             font-weight: 800;
-            background: linear-gradient(45deg, #27ae60, #3498db, #f39c12);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 3s ease-in-out infinite;
-            margin-bottom: 2rem;
-        }
-        
-        .trade-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .form-group label {
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 600;
             margin-bottom: 0.5rem;
         }
-        
-        .form-control {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 12px 15px;
-            color: white;
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-change {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .positive { color: var(--accent-green); }
+        .negative { color: var(--accent-red); }
+
+        /* Price Chart */
+        .price-chart {
+            grid-column: 1 / 3;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chart-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-tab {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            cursor: pointer;
             transition: all 0.3s ease;
         }
-        
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #27ae60;
-            box-shadow: 0 0 0 0.2rem rgba(39, 174, 96, 0.25);
+
+        .chart-tab.active,
+        .chart-tab:hover {
+            background: var(--accent-green);
             color: white;
+            border-color: var(--accent-green);
         }
-        
-        .btn-trade {
-            background: linear-gradient(45deg, #27ae60, #2ecc71);
+
+        /* Order Book */
+        .order-book {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .order-book-content {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .order-table {
+            width: 100%;
+            font-size: 0.85rem;
+        }
+
+        .order-table th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .order-table td {
+            padding: 0.3rem 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .buy-order { color: var(--accent-green); }
+        .sell-order { color: var(--accent-red); }
+
+        /* Trading Panel */
+        .trading-panel {
+            grid-column: 1 / 4;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .trading-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .trading-tab {
+            padding: 1rem 2rem;
+            background: transparent;
             border: none;
-            padding: 15px 30px;
-            border-radius: 15px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .trading-tab.active {
+            color: var(--accent-green);
+            border-bottom-color: var(--accent-green);
+        }
+
+        .trade-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .buy-form {
+            background: rgba(0, 212, 170, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 212, 170, 0.2);
+        }
+
+        .sell-form {
+            background: rgba(255, 71, 87, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 71, 87, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 2px rgba(0, 212, 170, 0.2);
+        }
+
+        .btn-buy {
+            background: linear-gradient(45deg, var(--accent-green), #00b894);
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
             color: white;
             font-weight: 700;
             font-size: 1.1rem;
+            cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
         }
-        
-        .btn-trade:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px rgba(39, 174, 96, 0.6);
+
+        .btn-sell {
+            background: linear-gradient(45deg, var(--accent-red), #e55039);
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
             color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        
-        .recent-trades {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
+
+        .btn-buy:hover,
+        .btn-sell:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Portfolio Section */
+        .portfolio-section {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
             padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-md);
+            margin-top: 2rem;
         }
-        
-        .trade-item {
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .portfolio-chart {
+            min-height: 300px;
+        }
+
+        .portfolio-summary {
+            background: var(--bg-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .portfolio-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--border-color);
         }
-        
-        .trade-item:last-child {
+
+        .portfolio-item:last-child {
             border-bottom: none;
         }
-        
+
+        .asset-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .asset-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-green), var(--accent-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Recent Trades */
+        .recent-trades {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            margin-top: 2rem;
+        }
+
+        .trades-table {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .trades-table th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+        }
+
+        .trades-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
         .trade-status {
-            padding: 4px 12px;
+            padding: 0.3rem 0.8rem;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
         }
-        
-        .status-success {
-            background: rgba(39, 174, 96, 0.2);
-            color: #27ae60;
-            border: 1px solid rgba(39, 174, 96, 0.3);
+
+        .status-completed {
+            background: rgba(0, 212, 170, 0.2);
+            color: var(--accent-green);
         }
-        
+
         .status-pending {
-            background: rgba(243, 156, 18, 0.2);
-            color: #f39c12;
-            border: 1px solid rgba(243, 156, 18, 0.3);
+            background: rgba(255, 165, 2, 0.2);
+            color: var(--accent-gold);
         }
-        
-        @keyframes floatUp {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(180deg); }
+
+        .status-failed {
+            background: rgba(255, 71, 87, 0.2);
+            color: var(--accent-red);
         }
-        
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+
+        /* Market Watch */
+        .market-watch {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            margin-top: 2rem;
+        }
+
+        .watchlist-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .watchlist-item:hover {
+            background: var(--bg-glass);
+        }
+
+        .watchlist-item:last-child {
+            border-bottom: none;
+        }
+
+        .mini-chart {
+            width: 60px;
+            height: 30px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .price-chart {
+                grid-column: 1 / 3;
+            }
+
+            .trading-panel {
+                grid-column: 1 / 3;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .price-chart,
+            .trading-panel {
+                grid-column: 1;
+            }
+
+            .trade-form {
+                grid-template-columns: 1fr;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-green);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title i {
+            color: var(--accent-green);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-green);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-blue);
         }
     </style>
 </head>
@@ -250,157 +677,788 @@
     <!-- Dashboard Header -->
     <div class="dashboard-header">
         <div class="container">
-            <div class="dashboard-nav">
-                <div class="dashboard-logo">
-                    <h2><i class="fas fa-coins"></i> EVERMORE Dashboard</h2>
-                </div>
-                <div class="user-info">
-                    <span>Welcome, <strong id="username"></strong></span>
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-cube"></i> EVERMORE TRADING
+                </a>
+                <div class="user-info ml-auto">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <div>
+                        <div style="font-weight: 600;">Welcome back!</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);" id="username">Loading...</div>
+                    </div>
                     <button class="btn btn-logout" onclick="logout()">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
                 </div>
-            </div>
+            </nav>
         </div>
     </div>
 
-    <!-- Dashboard Content -->
-    <div class="dashboard-content">
-        <div class="container">
-            <!-- Stats Grid -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-content">
-                        <div class="stat-icon" style="background: linear-gradient(45deg, #27ae60, #2ecc71); color: white;">
-                            <i class="fas fa-wallet"></i>
-                        </div>
-                        <div class="stat-value" style="color: #27ae60;">$12,450</div>
-                        <div class="stat-label">Portfolio Value</div>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active" onclick="showSection('overview')"><i class="fas fa-chart-line"></i> Overview</a></li>
+            <li><a href="#" onclick="showSection('trading')"><i class="fas fa-exchange-alt"></i> Trading</a></li>
+            <li><a href="#" onclick="showSection('portfolio')"><i class="fas fa-wallet"></i> Portfolio</a></li>
+            <li><a href="#" onclick="showSection('orders')"><i class="fas fa-list"></i> Orders</a></li>
+            <li><a href="#" onclick="showSection('history')"><i class="fas fa-history"></i> History</a></li>
+            <li><a href="#" onclick="showSection('market')"><i class="fas fa-chart-bar"></i> Market</a></li>
+            <li><a href="#" onclick="showSection('analytics')"><i class="fas fa-analytics"></i> Analytics</a></li>
+            <li><a href="#" onclick="showSection('settings')"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Overview Section -->
+        <div id="overview-section" class="dashboard-section active">
+            <!-- Market Overview -->
+            <div class="market-overview">
+                <h2 class="section-title"><i class="fas fa-globe"></i> Market Overview</h2>
+                <div class="market-stats">
+                    <div class="stat-card">
+                        <div class="stat-value positive" id="portfolioValue">$24,750.80</div>
+                        <div class="stat-label">Total Portfolio Value</div>
+                        <div class="stat-change positive">+$1,247.50 (+5.31%)</div>
                     </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-content">
-                        <div class="stat-icon" style="background: linear-gradient(45deg, #3498db, #5dade2); color: white;">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="stat-value" style="color: #3498db;">+15.8%</div>
-                        <div class="stat-label">24h Change</div>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-content">
-                        <div class="stat-icon" style="background: linear-gradient(45deg, #f39c12, #e67e22); color: white;">
-                            <i class="fas fa-coins"></i>
-                        </div>
-                        <div class="stat-value" style="color: #f39c12;">2,847</div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: var(--accent-gold);" id="evermoreBalance">3,847</div>
                         <div class="stat-label">EVERMORE Balance</div>
+                        <div class="stat-change positive">+147 (+3.98%)</div>
                     </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-content">
-                        <div class="stat-icon" style="background: linear-gradient(45deg, #9b59b6, #8e44ad); color: white;">
-                            <i class="fas fa-exchange-alt"></i>
-                        </div>
-                        <div class="stat-value" style="color: #9b59b6;">127</div>
+                    <div class="stat-card">
+                        <div class="stat-value positive" id="dailyPnL">+$847.20</div>
+                        <div class="stat-label">24h P&L</div>
+                        <div class="stat-change positive">+3.54%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: var(--accent-blue);" id="totalTrades">1,247</div>
                         <div class="stat-label">Total Trades</div>
+                        <div class="stat-change positive">+12 Today</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: var(--accent-purple);" id="winRate">78.4%</div>
+                        <div class="stat-label">Win Rate</div>
+                        <div class="stat-change positive">+2.1%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: var(--accent-gold);" id="avgReturn">12.8%</div>
+                        <div class="stat-label">Avg Monthly Return</div>
+                        <div class="stat-change positive">+0.7%</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Trading Section -->
-            <div class="trading-section">
-                <h3 class="section-title">Quick Trade</h3>
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Price Chart -->
+                <div class="price-chart">
+                    <div class="chart-header">
+                        <h3 class="section-title"><i class="fas fa-chart-area"></i> EVERMORE Price Chart</h3>
+                        <div class="chart-tabs">
+                            <button class="chart-tab active" onclick="changeTimeframe('1H')">1H</button>
+                            <button class="chart-tab" onclick="changeTimeframe('4H')">4H</button>
+                            <button class="chart-tab" onclick="changeTimeframe('1D')">1D</button>
+                            <button class="chart-tab" onclick="changeTimeframe('1W')">1W</button>
+                            <button class="chart-tab" onclick="changeTimeframe('1M')">1M</button>
+                        </div>
+                    </div>
+                    <canvas id="priceChart" width="400" height="300"></canvas>
+                </div>
+
+                <!-- Order Book -->
+                <div class="order-book">
+                    <h3 class="section-title"><i class="fas fa-book"></i> Order Book</h3>
+                    <div class="order-book-content">
+                        <table class="order-table">
+                            <thead>
+                                <tr>
+                                    <th>Price (USD)</th>
+                                    <th>Amount</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orderBookSells">
+                                <!-- Sell orders populated by JavaScript -->
+                            </tbody>
+                        </table>
+                        <div style="text-align: center; padding: 1rem; font-weight: 700; color: var(--accent-gold); border: 1px solid var(--border-color); margin: 0.5rem 0;">
+                            $0.2847 <span style="font-size: 0.8rem; color: var(--text-secondary);">Last Price</span>
+                        </div>
+                        <table class="order-table">
+                            <tbody id="orderBookBuys">
+                                <!-- Buy orders populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trading Panel -->
+            <div class="trading-panel">
+                <h3 class="section-title"><i class="fas fa-exchange-alt"></i> Quick Trade</h3>
+                <div class="trading-tabs">
+                    <button class="trading-tab active" onclick="showTradeType('spot')">Spot Trading</button>
+                    <button class="trading-tab" onclick="showTradeType('margin')">Margin Trading</button>
+                    <button class="trading-tab" onclick="showTradeType('futures')">Futures</button>
+                    <button class="trading-tab" onclick="showTradeType('options')">Options</button>
+                </div>
                 <div class="trade-form">
-                    <div class="form-group">
-                        <label>Trade Type</label>
-                        <select class="form-control">
-                            <option>Buy EVERMORE</option>
-                            <option>Sell EVERMORE</option>
-                            <option>Trade Items</option>
-                        </select>
+                    <div class="buy-form">
+                        <h4 style="color: var(--accent-green); margin-bottom: 1rem;"><i class="fas fa-arrow-up"></i> Buy EVERMORE</h4>
+                        <div class="form-group">
+                            <label>Order Type</label>
+                            <select class="form-control" id="buyOrderType">
+                                <option value="market">Market Order</option>
+                                <option value="limit">Limit Order</option>
+                                <option value="stop">Stop Order</option>
+                                <option value="stop-limit">Stop-Limit Order</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Price (USD)</label>
+                            <input type="number" class="form-control" id="buyPrice" placeholder="0.2847" step="0.0001">
+                        </div>
+                        <div class="form-group">
+                            <label>Amount (EVERMORE)</label>
+                            <input type="number" class="form-control" id="buyAmount" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>Total (USD)</label>
+                            <input type="number" class="form-control" id="buyTotal" placeholder="0.00" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Available Balance: <span style="color: var(--accent-green);">$5,420.80</span></label>
+                        </div>
+                        <button class="btn-buy" onclick="executeTrade('buy')">
+                            <i class="fas fa-arrow-up"></i> Buy EVERMORE
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label>Amount</label>
-                        <input type="number" class="form-control" placeholder="0.00" min="0" step="0.01">
-                    </div>
-                    <div class="form-group">
-                        <label>Price (USD)</label>
-                        <input type="number" class="form-control" placeholder="0.245" readonly>
-                    </div>
-                    <div class="form-group d-flex align-items-end">
-                        <button class="btn btn-trade">
-                            <i class="fas fa-bolt"></i> Execute Trade
+
+                    <div class="sell-form">
+                        <h4 style="color: var(--accent-red); margin-bottom: 1rem;"><i class="fas fa-arrow-down"></i> Sell EVERMORE</h4>
+                        <div class="form-group">
+                            <label>Order Type</label>
+                            <select class="form-control" id="sellOrderType">
+                                <option value="market">Market Order</option>
+                                <option value="limit">Limit Order</option>
+                                <option value="stop">Stop Order</option>
+                                <option value="stop-limit">Stop-Limit Order</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Price (USD)</label>
+                            <input type="number" class="form-control" id="sellPrice" placeholder="0.2847" step="0.0001">
+                        </div>
+                        <div class="form-group">
+                            <label>Amount (EVERMORE)</label>
+                            <input type="number" class="form-control" id="sellAmount" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>Total (USD)</label>
+                            <input type="number" class="form-control" id="sellTotal" placeholder="0.00" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Available Balance: <span style="color: var(--accent-green);">3,847 EVERMORE</span></label>
+                        </div>
+                        <button class="btn-sell" onclick="executeTrade('sell')">
+                            <i class="fas fa-arrow-down"></i> Sell EVERMORE
                         </button>
                     </div>
                 </div>
             </div>
 
+            <!-- Portfolio Section -->
+            <div class="portfolio-section">
+                <h3 class="section-title"><i class="fas fa-chart-pie"></i> Portfolio Allocation</h3>
+                <div class="portfolio-grid">
+                    <div class="portfolio-chart">
+                        <canvas id="portfolioChart" width="400" height="300"></canvas>
+                    </div>
+                    <div class="portfolio-summary">
+                        <h4 style="margin-bottom: 1rem;">Assets</h4>
+                        <div class="portfolio-item">
+                            <div class="asset-info">
+                                <div class="asset-icon">E</div>
+                                <div>
+                                    <div style="font-weight: 600;">EVERMORE</div>
+                                    <div style="font-size: 0.9rem; color: var(--text-secondary);">3,847 tokens</div>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: 600;">$10,945.89</div>
+                                <div class="positive" style="font-size: 0.9rem;">+5.31%</div>
+                            </div>
+                        </div>
+                        <div class="portfolio-item">
+                            <div class="asset-info">
+                                <div class="asset-icon" style="background: linear-gradient(45deg, #f7931a, #f2a900);">B</div>
+                                <div>
+                                    <div style="font-weight: 600;">Bitcoin</div>
+                                    <div style="font-size: 0.9rem; color: var(--text-secondary);">0.245 BTC</div>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: 600;">$8,420.50</div>
+                                <div class="positive" style="font-size: 0.9rem;">+2.14%</div>
+                            </div>
+                        </div>
+                        <div class="portfolio-item">
+                            <div class="asset-info">
+                                <div class="asset-icon" style="background: linear-gradient(45deg, #627eea, #4f46e5);">E</div>
+                                <div>
+                                    <div style="font-weight: 600;">Ethereum</div>
+                                    <div style="font-size: 0.9rem; color: var(--text-secondary);">2.1 ETH</div>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: 600;">$4,247.80</div>
+                                <div class="negative" style="font-size: 0.9rem;">-1.25%</div>
+                            </div>
+                        </div>
+                        <div class="portfolio-item">
+                            <div class="asset-info">
+                                <div class="asset-icon" style="background: linear-gradient(45deg, #1da1f2, #0d8bd9);">U</div>
+                                <div>
+                                    <div style="font-weight: 600;">USDC</div>
+                                    <div style="font-size: 0.9rem; color: var(--text-secondary);">1,136.61 USDC</div>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: 600;">$1,136.61</div>
+                                <div style="font-size: 0.9rem; color: var(--text-secondary);">0.00%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Recent Trades -->
-            <div class="trading-section">
-                <h3 class="section-title">Recent Trades</h3>
-                <div class="recent-trades">
-                    <div class="trade-item">
-                        <div>
-                            <strong>Buy EVERMORE</strong><br>
-                            <small style="color: rgba(255,255,255,0.7);">150 EVERMORE @ $0.245</small>
-                        </div>
-                        <div>
-                            <div class="trade-status status-success">Completed</div>
-                        </div>
-                    </div>
-                    <div class="trade-item">
-                        <div>
-                            <strong>Sell Diamond Sword</strong><br>
-                            <small style="color: rgba(255,255,255,0.7);">1 Item for 25 EVERMORE</small>
-                        </div>
-                        <div>
-                            <div class="trade-status status-pending">Pending</div>
-                        </div>
-                    </div>
-                    <div class="trade-item">
-                        <div>
-                            <strong>Buy Enchanted Bow</strong><br>
-                            <small style="color: rgba(255,255,255,0.7);">1 Item for 18 EVERMORE</small>
-                        </div>
-                        <div>
-                            <div class="trade-status status-success">Completed</div>
-                        </div>
-                    </div>
+            <div class="recent-trades">
+                <h3 class="section-title"><i class="fas fa-history"></i> Recent Trades</h3>
+                <table class="trades-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Pair</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>P&L</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentTradesTable">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Market Watch -->
+            <div class="market-watch">
+                <h3 class="section-title"><i class="fas fa-eye"></i> Market Watch</h3>
+                <div id="marketWatchList">
+                    <!-- Populated by JavaScript -->
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Check if user is logged in
+        // Global variables
+        let currentUser = null;
+        let priceChart = null;
+        let portfolioChart = null;
+        let currentTimeframe = '1D';
+        let currentPrice = 0.2847;
+        let webSocket = null;
+
+        // Authentication check
         function checkAuth() {
             const isLoggedIn = sessionStorage.getItem('isLoggedIn');
             const username = sessionStorage.getItem('username');
             
             if (!isLoggedIn || isLoggedIn !== 'true') {
-                // Redirect to login page if not authenticated
                 window.location.href = 'login.html';
                 return;
             }
             
-            // Display username
+            currentUser = username;
             document.getElementById('username').textContent = username;
+            document.getElementById('userAvatar').textContent = username.charAt(0).toUpperCase();
+            
+            // Initialize dashboard
+            initializeDashboard();
         }
-        
+
+        // Initialize dashboard
+        function initializeDashboard() {
+            initializePriceChart();
+            initializePortfolioChart();
+            populateOrderBook();
+            populateRecentTrades();
+            populateMarketWatch();
+            startRealTimeUpdates();
+            updateCalculations();
+        }
+
+        // Initialize price chart
+        function initializePriceChart() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            
+            // Generate sample data
+            const labels = [];
+            const data = [];
+            const basePrice = 0.2847;
+            
+            for (let i = 30; i >= 0; i--) {
+                const date = new Date();
+                date.setHours(date.getHours() - i);
+                labels.push(date.toLocaleTimeString());
+                
+                // Generate realistic price movement
+                const variation = (Math.random() - 0.5) * 0.02;
+                const price = basePrice + (basePrice * variation);
+                data.push(price.toFixed(4));
+            }
+            
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'EVERMORE Price (USD)',
+                        data: data,
+                        borderColor: '#00d4aa',
+                        backgroundColor: 'rgba(0, 212, 170, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#8fa8b2'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#8fa8b2',
+                                callback: function(value) {
+                                    return '$' + value.toFixed(4);
+                                }
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        }
+
+        // Initialize portfolio chart
+        function initializePortfolioChart() {
+            const ctx = document.getElementById('portfolioChart').getContext('2d');
+            
+            portfolioChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['EVERMORE', 'Bitcoin', 'Ethereum', 'USDC'],
+                    datasets: [{
+                        data: [44.2, 34.0, 17.2, 4.6],
+                        backgroundColor: [
+                            '#00d4aa',
+                            '#f7931a',
+                            '#627eea',
+                            '#1da1f2'
+                        ],
+                        borderWidth: 0,
+                        cutout: '60%'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#ffffff',
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Populate order book
+        function populateOrderBook() {
+            const sellOrders = document.getElementById('orderBookSells');
+            const buyOrders = document.getElementById('orderBookBuys');
+            
+            // Generate sell orders (higher prices)
+            let sellOrdersHtml = '';
+            for (let i = 5; i >= 1; i--) {
+                const price = (currentPrice + (i * 0.001)).toFixed(4);
+                const amount = (Math.random() * 1000 + 100).toFixed(2);
+                const total = (price * amount).toFixed(2);
+                
+                sellOrdersHtml += `
+                    <tr class="sell-order">
+                        <td>$${price}</td>
+                        <td>${amount}</td>
+                        <td>$${total}</td>
+                    </tr>
+                `;
+            }
+            sellOrders.innerHTML = sellOrdersHtml;
+            
+            // Generate buy orders (lower prices)
+            let buyOrdersHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                const price = (currentPrice - (i * 0.001)).toFixed(4);
+                const amount = (Math.random() * 1000 + 100).toFixed(2);
+                const total = (price * amount).toFixed(2);
+                
+                buyOrdersHtml += `
+                    <tr class="buy-order">
+                        <td>$${price}</td>
+                        <td>${amount}</td>
+                        <td>$${total}</td>
+                    </tr>
+                `;
+            }
+            buyOrders.innerHTML = buyOrdersHtml;
+        }
+
+        // Populate recent trades
+        function populateRecentTrades() {
+            const tradesTable = document.getElementById('recentTradesTable');
+            
+            const trades = [
+                { date: '2025-01-15 14:32:15', pair: 'EVERMORE/USD', type: 'Buy', amount: '150.00', price: '0.2847', total: '42.71', status: 'completed', pnl: '+5.20' },
+                { date: '2025-01-15 13:45:22', pair: 'EVERMORE/USD', type: 'Sell', amount: '75.00', price: '0.2835', total: '21.26', status: 'completed', pnl: '+1.85' },
+                { date: '2025-01-15 12:18:45', pair: 'BTC/USD', type: 'Buy', amount: '0.001', price: '34350.00', total: '34.35', status: 'completed', pnl: '+2.47' },
+                { date: '2025-01-15 11:55:12', pair: 'EVERMORE/USD', type: 'Buy', amount: '200.00', price: '0.2820', total: '56.40', status: 'pending', pnl: '0.00' },
+                { date: '2025-01-15 10:22:30', pair: 'ETH/USD', type: 'Sell', amount: '0.1', price: '2023.50', total: '202.35', status: 'completed', pnl: '-1.24' },
+                { date: '2025-01-14 16:45:18', pair: 'EVERMORE/USD', type: 'Buy', amount: '300.00', price: '0.2798', total: '83.94', status: 'completed', pnl: '+8.91' }
+            ];
+            
+            let tradesHtml = '';
+            trades.forEach(trade => {
+                const statusClass = trade.status === 'completed' ? 'status-completed' : 
+                                  trade.status === 'pending' ? 'status-pending' : 'status-failed';
+                const pnlClass = trade.pnl.startsWith('+') ? 'positive' : 
+                               trade.pnl.startsWith('-') ? 'negative' : '';
+                
+                tradesHtml += `
+                    <tr>
+                        <td>${trade.date}</td>
+                        <td>${trade.pair}</td>
+                        <td><span class="${trade.type.toLowerCase() === 'buy' ? 'buy-order' : 'sell-order'}">${trade.type}</span></td>
+                        <td>${trade.amount}</td>
+                        <td>$${trade.price}</td>
+                        <td>$${trade.total}</td>
+                        <td><span class="trade-status ${statusClass}">${trade.status}</span></td>
+                        <td><span class="${pnlClass}">$${trade.pnl}</span></td>
+                    </tr>
+                `;
+            });
+            
+            tradesTable.innerHTML = tradesHtml;
+        }
+
+        // Populate market watch
+        function populateMarketWatch() {
+            const marketWatch = document.getElementById('marketWatchList');
+            
+            const markets = [
+                { symbol: 'BTC/USD', price: '34,350.20', change: '+2.45%', changeClass: 'positive' },
+                { symbol: 'ETH/USD', price: '2,023.50', change: '-1.25%', changeClass: 'negative' },
+                { symbol: 'EVERMORE/BTC', price: '0.00000828', change: '+5.31%', changeClass: 'positive' },
+                { symbol: 'ADA/USD', price: '0.3521', change: '+0.85%', changeClass: 'positive' },
+                { symbol: 'SOL/USD', price: '98.47', change: '+3.22%', changeClass: 'positive' },
+                { symbol: 'DOGE/USD', price: '0.0847', change: '-2.15%', changeClass: 'negative' }
+            ];
+            
+            let marketHtml = '';
+            markets.forEach(market => {
+                marketHtml += `
+                    <div class="watchlist-item">
+                        <div>
+                            <div style="font-weight: 600;">${market.symbol}</div>
+                            <div style="font-size: 0.9rem; color: var(--text-secondary);">Spot</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-weight: 600;">$${market.price}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="${market.changeClass}" style="font-weight: 600;">${market.change}</div>
+                            <div class="mini-chart" style="background: var(--bg-glass); border-radius: 4px;"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            marketWatch.innerHTML = marketHtml;
+        }
+
+        // Start real-time updates
+        function startRealTimeUpdates() {
+            // Simulate real-time price updates
+            setInterval(() => {
+                updatePrices();
+                updateOrderBook();
+            }, 3000);
+            
+            // Update portfolio values every 10 seconds
+            setInterval(() => {
+                updatePortfolioValues();
+            }, 10000);
+        }
+
+        // Update prices with realistic fluctuations
+        function updatePrices() {
+            const variation = (Math.random() - 0.5) * 0.002;
+            currentPrice = Math.max(0.001, currentPrice + (currentPrice * variation));
+            
+            // Update price displays
+            document.getElementById('buyPrice').placeholder = currentPrice.toFixed(4);
+            document.getElementById('sellPrice').placeholder = currentPrice.toFixed(4);
+            
+            // Add new data point to chart
+            if (priceChart) {
+                const now = new Date().toLocaleTimeString();
+                priceChart.data.labels.push(now);
+                priceChart.data.datasets[0].data.push(currentPrice.toFixed(4));
+                
+                // Keep only last 30 data points
+                if (priceChart.data.labels.length > 30) {
+                    priceChart.data.labels.shift();
+                    priceChart.data.datasets[0].data.shift();
+                }
+                
+                priceChart.update('none');
+            }
+        }
+
+        // Update order book
+        function updateOrderBook() {
+            populateOrderBook();
+        }
+
+        // Update portfolio values
+        function updatePortfolioValues() {
+            const portfolioValue = document.getElementById('portfolioValue');
+            const currentValue = parseFloat(portfolioValue.textContent.replace(/[$,]/g, ''));
+            const change = (Math.random() - 0.5) * 200;
+            const newValue = Math.max(1000, currentValue + change);
+            
+            portfolioValue.textContent = '$' + newValue.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        // Update trade calculations
+        function updateCalculations() {
+            // Buy form calculations
+            const buyPrice = document.getElementById('buyPrice');
+            const buyAmount = document.getElementById('buyAmount');
+            const buyTotal = document.getElementById('buyTotal');
+            
+            function updateBuyTotal() {
+                const price = parseFloat(buyPrice.value) || parseFloat(buyPrice.placeholder) || 0;
+                const amount = parseFloat(buyAmount.value) || 0;
+                buyTotal.value = (price * amount).toFixed(2);
+            }
+            
+            buyPrice.addEventListener('input', updateBuyTotal);
+            buyAmount.addEventListener('input', updateBuyTotal);
+            
+            // Sell form calculations
+            const sellPrice = document.getElementById('sellPrice');
+            const sellAmount = document.getElementById('sellAmount');
+            const sellTotal = document.getElementById('sellTotal');
+            
+            function updateSellTotal() {
+                const price = parseFloat(sellPrice.value) || parseFloat(sellPrice.placeholder) || 0;
+                const amount = parseFloat(sellAmount.value) || 0;
+                sellTotal.value = (price * amount).toFixed(2);
+            }
+            
+            sellPrice.addEventListener('input', updateSellTotal);
+            sellAmount.addEventListener('input', updateSellTotal);
+        }
+
+        // Change timeframe
+        function changeTimeframe(timeframe) {
+            currentTimeframe = timeframe;
+            
+            // Update active tab
+            document.querySelectorAll('.chart-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Regenerate chart data for new timeframe
+            // This would typically fetch new data from an API
+            initializePriceChart();
+        }
+
+        // Show section
+        function showSection(section) {
+            // Update active sidebar item
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // For now, all sections show the overview
+            // In a real app, you'd hide/show different content sections
+            console.log('Showing section:', section);
+        }
+
+        // Show trade type
+        function showTradeType(type) {
+            document.querySelectorAll('.trading-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            console.log('Showing trade type:', type);
+        }
+
+        // Execute trade
+        function executeTrade(type) {
+            const isValidTrade = type === 'buy' ? 
+                validateTrade('buy', document.getElementById('buyAmount').value, document.getElementById('buyPrice').value) :
+                validateTrade('sell', document.getElementById('sellAmount').value, document.getElementById('sellPrice').value);
+            
+            if (!isValidTrade) {
+                return;
+            }
+            
+            // Show loading state
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<div class="loading"></div> Processing...';
+            button.disabled = true;
+            
+            // Simulate trade execution
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                
+                // Show success message
+                showNotification(`${type.toUpperCase()} order executed successfully!`, 'success');
+                
+                // Clear form
+                if (type === 'buy') {
+                    document.getElementById('buyAmount').value = '';
+                    document.getElementById('buyTotal').value = '';
+                } else {
+                    document.getElementById('sellAmount').value = '';
+                    document.getElementById('sellTotal').value = '';
+                }
+                
+                // Refresh trades table
+                populateRecentTrades();
+                
+            }, 2000);
+        }
+
+        // Validate trade
+        function validateTrade(type, amount, price) {
+            if (!amount || parseFloat(amount) <= 0) {
+                showNotification('Please enter a valid amount', 'error');
+                return false;
+            }
+            
+            if (!price || parseFloat(price) <= 0) {
+                showNotification('Please enter a valid price', 'error');
+                return false;
+            }
+            
+            // Additional validation logic would go here
+            return true;
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: ${type === 'success' ? 'var(--accent-green)' : 'var(--accent-red)'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                z-index: 10000;
+                font-weight: 600;
+                box-shadow: var(--shadow-lg);
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            // Add CSS animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                    document.head.removeChild(style);
+                }, 300);
+            }, 3000);
+        }
+
         // Logout function
         function logout() {
-            sessionStorage.removeItem('isLoggedIn');
-            sessionStorage.removeItem('username');
-            window.location.href = 'login.html';
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.removeItem('isLoggedIn');
+                sessionStorage.removeItem('username');
+                window.location.href = 'login.html';
+            }
         }
-        
-        // Check authentication on page load
-        checkAuth();
-        
-        // Auto-logout after 30 minutes of inactivity
+
+        // Auto-logout after inactivity
         let inactivityTimer;
         function resetInactivityTimer() {
             clearTimeout(inactivityTimer);
@@ -409,11 +1467,23 @@
                 logout();
             }, 30 * 60 * 1000); // 30 minutes
         }
-        
+
         // Reset timer on user activity
         document.addEventListener('mousemove', resetInactivityTimer);
         document.addEventListener('keypress', resetInactivityTimer);
-        resetInactivityTimer();
+        document.addEventListener('click', resetInactivityTimer);
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            resetInactivityTimer();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (priceChart) priceChart.resize();
+            if (portfolioChart) portfolioChart.resize();
+        });
     </script>
 </body>
 </html>
