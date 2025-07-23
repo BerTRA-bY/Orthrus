@@ -260,18 +260,23 @@
             border: 1px solid var(--border-color);
             padding: 1.5rem;
             box-shadow: var(--shadow-md);
+            min-height: 500px;
+            height: 500px;
         }
 
         .chart-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .chart-tabs {
             display: flex;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .chart-tab {
@@ -282,6 +287,8 @@
             color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
 
         .chart-tab.active,
@@ -289,6 +296,69 @@
             background: var(--accent-green);
             color: white;
             border-color: var(--accent-green);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 212, 170, 0.3);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .chart-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+        }
+
+        .chart-indicators {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .chart-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .price-info {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .price-metric {
+            text-align: center;
+        }
+
+        .price-metric-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.2rem;
+        }
+
+        .price-metric-value {
+            font-size: 1.1rem;
+            font-weight: 700;
         }
 
         /* Order Book */
@@ -590,10 +660,21 @@
 
             .price-chart {
                 grid-column: 1 / 3;
+                height: 450px;
+                min-height: 450px;
             }
 
             .trading-panel {
                 grid-column: 1 / 3;
+            }
+
+            .chart-container {
+                height: 320px;
+            }
+
+            .price-info {
+                flex-wrap: wrap;
+                gap: 1rem;
             }
         }
 
@@ -613,6 +694,12 @@
             .price-chart,
             .trading-panel {
                 grid-column: 1;
+                height: 400px;
+                min-height: 400px;
+            }
+
+            .chart-container {
+                height: 280px;
             }
 
             .trade-form {
@@ -622,6 +709,60 @@
             .portfolio-grid {
                 grid-template-columns: 1fr;
             }
+
+            .chart-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .price-info {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+
+            .price-metric {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Fullscreen Chart Modal */
+        .chart-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--primary-dark);
+            z-index: 10001;
+            padding: 2rem;
+            display: none;
+        }
+
+        .chart-fullscreen.active {
+            display: block;
+        }
+
+        .chart-fullscreen .chart-container {
+            height: calc(100vh - 200px);
+            margin-top: 2rem;
+        }
+
+        .fullscreen-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .btn-close-fullscreen {
+            background: var(--accent-red);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
         }
 
         /* Loading Animation */
@@ -764,7 +905,58 @@
                             <button class="chart-tab" onclick="changeTimeframe('1M')">1M</button>
                         </div>
                     </div>
-                    <canvas id="priceChart" width="400" height="300"></canvas>
+                    
+                    <!-- Real-time Price Info -->
+                    <div class="price-info">
+                        <div class="price-metric">
+                            <div class="price-metric-label">Current Price</div>
+                            <div class="price-metric-value" style="color: var(--accent-green);" id="currentPriceDisplay">$0.2847</div>
+                        </div>
+                        <div class="price-metric">
+                            <div class="price-metric-label">24h Change</div>
+                            <div class="price-metric-value positive" id="priceChange24h">+$0.0124 (+4.56%)</div>
+                        </div>
+                        <div class="price-metric">
+                            <div class="price-metric-label">24h High</div>
+                            <div class="price-metric-value" style="color: var(--accent-green);" id="price24hHigh">$0.2901</div>
+                        </div>
+                        <div class="price-metric">
+                            <div class="price-metric-label">24h Low</div>
+                            <div class="price-metric-value" style="color: var(--accent-red);" id="price24hLow">$0.2723</div>
+                        </div>
+                        <div class="price-metric">
+                            <div class="price-metric-label">Volume</div>
+                            <div class="price-metric-value" style="color: var(--accent-blue);" id="volume24h">$2.4M</div>
+                        </div>
+                    </div>
+
+                    <!-- Chart Controls -->
+                    <div class="chart-controls">
+                        <div class="chart-indicators">
+                            <div class="chart-indicator">
+                                <div class="indicator-dot" style="background: var(--accent-green);"></div>
+                                <span>Price Line</span>
+                            </div>
+                            <div class="chart-indicator">
+                                <div class="indicator-dot" style="background: var(--accent-blue);"></div>
+                                <span>Volume</span>
+                            </div>
+                            <div class="chart-indicator">
+                                <div class="indicator-dot" style="background: var(--accent-gold);"></div>
+                                <span>Moving Average</span>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="chart-tab" onclick="toggleFullscreen()" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">
+                                <i class="fas fa-expand-arrows-alt"></i> Fullscreen
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chart Container -->
+                    <div class="chart-container">
+                        <canvas id="priceChart"></canvas>
+                    </div>
                 </div>
 
                 <!-- Order Book -->
@@ -956,24 +1148,66 @@
                 </table>
             </div>
 
-            <!-- Market Watch -->
-            <div class="market-watch">
-                <h3 class="section-title"><i class="fas fa-eye"></i> Market Watch</h3>
-                <div id="marketWatchList">
-                    <!-- Populated by JavaScript -->
-                </div>
+        <!-- Market Watch -->
+        <div class="market-watch">
+            <h3 class="section-title"><i class="fas fa-eye"></i> Market Watch</h3>
+            <div id="marketWatchList">
+                <!-- Populated by JavaScript -->
             </div>
         </div>
     </div>
+</div>
+
+<!-- Fullscreen Chart Modal -->
+<div class="chart-fullscreen" id="chartFullscreen">
+    <div class="fullscreen-header">
+        <h2 class="section-title"><i class="fas fa-chart-area"></i> EVERMORE Price Chart - Fullscreen</h2>
+        <button class="btn-close-fullscreen" onclick="closeFullscreen()">
+            <i class="fas fa-times"></i> Close
+        </button>
+    </div>
+    
+    <div class="price-info">
+        <div class="price-metric">
+            <div class="price-metric-label">Current Price</div>
+            <div class="price-metric-value" style="color: var(--accent-green);" id="currentPriceDisplayFs">$0.2847</div>
+        </div>
+        <div class="price-metric">
+            <div class="price-metric-label">24h Change</div>
+            <div class="price-metric-value positive" id="priceChange24hFs">+$0.0124 (+4.56%)</div>
+        </div>
+        <div class="price-metric">
+            <div class="price-metric-label">24h High</div>
+            <div class="price-metric-value" style="color: var(--accent-green);" id="price24hHighFs">$0.2901</div>
+        </div>
+        <div class="price-metric">
+            <div class="price-metric-label">24h Low</div>
+            <div class="price-metric-value" style="color: var(--accent-red);" id="price24hLowFs">$0.2723</div>
+        </div>
+        <div class="price-metric">
+            <div class="price-metric-label">Volume</div>
+            <div class="price-metric-value" style="color: var(--accent-blue);" id="volume24hFs">$2.4M</div>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="priceChartFullscreen"></canvas>
+    </div>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Global variables
         let currentUser = null;
         let priceChart = null;
+        let priceChartFullscreen = null;
         let portfolioChart = null;
         let currentTimeframe = '1D';
         let currentPrice = 0.2847;
+        let priceHigh24h = 0.2901;
+        let priceLow24h = 0.2723;
+        let priceChange24h = 0.0124;
+        let volume24h = 2400000;
         let webSocket = null;
 
         // Authentication check
@@ -1011,7 +1245,9 @@
             
             // Generate sample data
             const labels = [];
-            const data = [];
+            const priceData = [];
+            const volumeData = [];
+            const maData = [];
             const basePrice = 0.2847;
             
             for (let i = 30; i >= 0; i--) {
@@ -1022,7 +1258,19 @@
                 // Generate realistic price movement
                 const variation = (Math.random() - 0.5) * 0.02;
                 const price = basePrice + (basePrice * variation);
-                data.push(price.toFixed(4));
+                priceData.push(price.toFixed(4));
+                
+                // Generate volume data
+                const volume = Math.random() * 100000 + 50000;
+                volumeData.push(volume);
+                
+                // Generate moving average data
+                if (i <= 25) {
+                    const ma = priceData.slice(-5).reduce((sum, p) => sum + parseFloat(p), 0) / Math.min(5, priceData.length);
+                    maData.push(ma.toFixed(4));
+                } else {
+                    maData.push(null);
+                }
             }
             
             priceChart = new Chart(ctx, {
@@ -1031,36 +1279,93 @@
                     labels: labels,
                     datasets: [{
                         label: 'EVERMORE Price (USD)',
-                        data: data,
+                        data: priceData,
                         borderColor: '#00d4aa',
                         backgroundColor: 'rgba(0, 212, 170, 0.1)',
                         borderWidth: 3,
                         fill: true,
                         tension: 0.4,
                         pointRadius: 0,
-                        pointHoverRadius: 6
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: '#00d4aa',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        yAxisID: 'y'
+                    }, {
+                        label: 'Moving Average (5)',
+                        data: maData,
+                        borderColor: '#ffa502',
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        pointHoverRadius: 6,
+                        borderDash: [5, 5],
+                        yAxisID: 'y'
+                    }, {
+                        label: 'Volume',
+                        data: volumeData,
+                        type: 'bar',
+                        backgroundColor: 'rgba(55, 66, 250, 0.3)',
+                        borderColor: 'rgba(55, 66, 250, 0.6)',
+                        borderWidth: 1,
+                        yAxisID: 'y1'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
                     plugins: {
                         legend: {
                             display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(13, 20, 33, 0.95)',
+                            titleColor: '#ffffff',
+                            bodyColor: '#ffffff',
+                            borderColor: '#00d4aa',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                title: function(context) {
+                                    return `Time: ${context[0].label}`;
+                                },
+                                label: function(context) {
+                                    if (context.datasetIndex === 0) {
+                                        return `Price: $${context.parsed.y}`;
+                                    } else if (context.datasetIndex === 1) {
+                                        return `MA(5): $${context.parsed.y}`;
+                                    } else {
+                                        return `Volume: ${context.parsed.y.toLocaleString()}`;
+                                    }
+                                }
+                            }
                         }
                     },
                     scales: {
                         x: {
                             grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
+                                color: 'rgba(255, 255, 255, 0.1)',
+                                drawBorder: false
                             },
                             ticks: {
-                                color: '#8fa8b2'
+                                color: '#8fa8b2',
+                                maxTicksLimit: 8
                             }
                         },
                         y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
                             grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
+                                color: 'rgba(255, 255, 255, 0.1)',
+                                drawBorder: false
                             },
                             ticks: {
                                 color: '#8fa8b2',
@@ -1068,11 +1373,26 @@
                                     return '$' + value.toFixed(4);
                                 }
                             }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            grid: {
+                                drawOnChartArea: false,
+                            },
+                            ticks: {
+                                color: '#8fa8b2',
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            }
                         }
                     },
-                    interaction: {
-                        intersect: false,
-                        mode: 'index'
+                    elements: {
+                        point: {
+                            hoverRadius: 8
+                        }
                     }
                 }
             });
@@ -1246,7 +1566,21 @@
             const variation = (Math.random() - 0.5) * 0.002;
             currentPrice = Math.max(0.001, currentPrice + (currentPrice * variation));
             
+            // Update 24h high/low
+            if (currentPrice > priceHigh24h) priceHigh24h = currentPrice;
+            if (currentPrice < priceLow24h) priceLow24h = currentPrice;
+            
+            // Calculate 24h change
+            const yesterdayPrice = 0.2723;
+            priceChange24h = currentPrice - yesterdayPrice;
+            const changePercent = ((priceChange24h / yesterdayPrice) * 100);
+            
+            // Update volume
+            volume24h += (Math.random() - 0.5) * 10000;
+            
             // Update price displays
+            updatePriceDisplays();
+            
             document.getElementById('buyPrice').placeholder = currentPrice.toFixed(4);
             document.getElementById('sellPrice').placeholder = currentPrice.toFixed(4);
             
@@ -1256,13 +1590,116 @@
                 priceChart.data.labels.push(now);
                 priceChart.data.datasets[0].data.push(currentPrice.toFixed(4));
                 
+                // Add volume data
+                const newVolume = Math.random() * 100000 + 50000;
+                priceChart.data.datasets[2].data.push(newVolume);
+                
+                // Update moving average
+                const recentPrices = priceChart.data.datasets[0].data.slice(-5);
+                const ma = recentPrices.reduce((sum, p) => sum + parseFloat(p), 0) / recentPrices.length;
+                priceChart.data.datasets[1].data.push(ma.toFixed(4));
+                
                 // Keep only last 30 data points
                 if (priceChart.data.labels.length > 30) {
                     priceChart.data.labels.shift();
                     priceChart.data.datasets[0].data.shift();
+                    priceChart.data.datasets[1].data.shift();
+                    priceChart.data.datasets[2].data.shift();
                 }
                 
                 priceChart.update('none');
+            }
+            
+            // Update fullscreen chart if active
+            if (priceChartFullscreen && document.getElementById('chartFullscreen').classList.contains('active')) {
+                updateFullscreenChart();
+            }
+        }
+
+        // Update price displays
+        function updatePriceDisplays() {
+            const changePercent = ((priceChange24h / (currentPrice - priceChange24h)) * 100);
+            const changeClass = priceChange24h >= 0 ? 'positive' : 'negative';
+            const changeSign = priceChange24h >= 0 ? '+' : '';
+            
+            // Main displays
+            document.getElementById('currentPriceDisplay').textContent = `$${currentPrice.toFixed(4)}`;
+            document.getElementById('priceChange24h').textContent = `${changeSign}$${priceChange24h.toFixed(4)} (${changeSign}${changePercent.toFixed(2)}%)`;
+            document.getElementById('priceChange24h').className = `price-metric-value ${changeClass}`;
+            document.getElementById('price24hHigh').textContent = `$${priceHigh24h.toFixed(4)}`;
+            document.getElementById('price24hLow').textContent = `$${priceLow24h.toFixed(4)}`;
+            document.getElementById('volume24h').textContent = `$${(volume24h / 1000000).toFixed(1)}M`;
+            
+            // Fullscreen displays
+            if (document.getElementById('currentPriceDisplayFs')) {
+                document.getElementById('currentPriceDisplayFs').textContent = `$${currentPrice.toFixed(4)}`;
+                document.getElementById('priceChange24hFs').textContent = `${changeSign}$${priceChange24h.toFixed(4)} (${changeSign}${changePercent.toFixed(2)}%)`;
+                document.getElementById('priceChange24hFs').className = `price-metric-value ${changeClass}`;
+                document.getElementById('price24hHighFs').textContent = `$${priceHigh24h.toFixed(4)}`;
+                document.getElementById('price24hLowFs').textContent = `$${priceLow24h.toFixed(4)}`;
+                document.getElementById('volume24hFs').textContent = `$${(volume24h / 1000000).toFixed(1)}M`;
+            }
+        }
+
+        // Toggle fullscreen chart
+        function toggleFullscreen() {
+            const fullscreenEl = document.getElementById('chartFullscreen');
+            fullscreenEl.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Initialize fullscreen chart
+            setTimeout(() => {
+                initializeFullscreenChart();
+                updatePriceDisplays();
+            }, 100);
+        }
+
+        // Close fullscreen chart
+        function closeFullscreen() {
+            const fullscreenEl = document.getElementById('chartFullscreen');
+            fullscreenEl.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            if (priceChartFullscreen) {
+                priceChartFullscreen.destroy();
+                priceChartFullscreen = null;
+            }
+        }
+
+        // Initialize fullscreen chart
+        function initializeFullscreenChart() {
+            const ctx = document.getElementById('priceChartFullscreen').getContext('2d');
+            
+            // Copy data from main chart
+            const mainChart = priceChart;
+            if (!mainChart) return;
+            
+            priceChartFullscreen = new Chart(ctx, {
+                type: 'line',
+                data: JSON.parse(JSON.stringify(mainChart.data)),
+                options: {
+                    ...mainChart.options,
+                    plugins: {
+                        ...mainChart.options.plugins,
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: '#ffffff',
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update fullscreen chart
+        function updateFullscreenChart() {
+            if (priceChartFullscreen && priceChart) {
+                priceChartFullscreen.data = JSON.parse(JSON.stringify(priceChart.data));
+                priceChartFullscreen.update('none');
             }
         }
 
@@ -1477,12 +1914,21 @@
         document.addEventListener('DOMContentLoaded', function() {
             checkAuth();
             resetInactivityTimer();
+            updatePriceDisplays();
         });
 
         // Handle window resize
         window.addEventListener('resize', function() {
             if (priceChart) priceChart.resize();
             if (portfolioChart) portfolioChart.resize();
+            if (priceChartFullscreen) priceChartFullscreen.resize();
+        });
+
+        // Handle escape key to close fullscreen
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && document.getElementById('chartFullscreen').classList.contains('active')) {
+                closeFullscreen();
+            }
         });
     </script>
 </body>
